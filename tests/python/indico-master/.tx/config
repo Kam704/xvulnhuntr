@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[o:indico:p:indico:r:core-messages-all]
+file_filter = indico/translations/<lang>/LC_MESSAGES/messages-all.po
+source_file = indico/translations/messages-all.pot
+source_lang = en
+type        = PO

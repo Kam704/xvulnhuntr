@@ -1,0 +1,29 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use './variables';
+@use 'utils';
+
+%popup-title {
+  @extend %reset-font-and-color;
+  font-weight: bold;
+  font-size: var(--text-size-rel-l);
+}
+
+// The following placeholder should be extended
+// by the target element used in the positioning.js
+// module. The CSS custom properties used below are
+// defined by that module.
+%popup-positioned-target {
+  position: var(--target-position, fixed);
+  left: var(--target-left, auto);
+  right: var(--target-right, auto);
+  top: var(--target-top, auto);
+  bottom: var(--target-bottom, auto);
+  width: var(--target-width, auto);
+  height: var(--target-height, auto);
+}

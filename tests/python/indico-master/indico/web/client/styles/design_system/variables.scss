@@ -1,0 +1,133 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+body {
+  // Color palette
+  --text-color: #333;
+  --text-inverse-color: #fff;
+  --text-disabled-color: #999;
+  --text-secondary-color: #6e6e6e;
+  --background-secondary: #f7f7f7;
+  --surface-default: #e8e8e8;
+  --surface-inverse-color: #555;
+  --surface-accent-color: var(--accent-color);
+  --surface-accent-secondary-color: #cee8f5;
+  --surface-highlight-color: #c4c4c4;
+  --surface-highlight-inverse-color: var(--text-secondary-color);
+  --surface-disabled-color: #f9f9f9;
+  --surface-disabled-inverse-color: #757575;
+  --border-default-color: #5a5a5a;
+  --border-disabled-color: #c4c4c4;
+  --accent-color: #0075a3;
+  --accent-secondary-color: #b35905; // XXX: min font size 1.2rem or 1rem bold (or solid icon)
+  --accent-highlight-color: #035e81;
+  --accent-border-color: #05425b;
+  --active-color: #db1a1a;
+  --visited-color: #5c079b;
+  --protected-color: #cc6300; // XXX: min font size 1.2rem or 1rem bold (or solid icon)
+  --highlight-color: #fff9b8; // XXX: Subtle highlight / background of large highlighted areas
+  --attention-color: #fd0; // XXX: Small UI bits that scream for attention
+
+  --text-red-color: #db1a1a;
+  --text-green-color: #216901;
+  --text-blue-color: #0164c1;
+  --text-brown-color: #60331f;
+  --text-orange-color: #b73701;
+
+  // Generic controls
+  --control-border-color: var(--border-default-color);
+  --control-text-color: var(--text-color);
+  --control-clickable-surface-color: var(--surface-default);
+  --control-clickable-surface-focus-color: var(--surface-highlight-color);
+  --control-clickable-border-color: var(--control-border-color);
+  --control-alt-text-color: var(--text-inverse-color);
+  --control-alt-clickable-surface-color: var(--accent-color);
+  --control-alt-clickable-surface-focus-color: var(--accent-highlight-color);
+  --control-alt-border-color: var(--accent-border-color);
+  --control-disabled-text-color: var(--text-disabled-color);
+  --control-disabled-clickable-surface-color: var(--surface-disabled-color);
+  --control-disabled-border-color: var(--surface-disabled-color);
+  --control-indented-bg-color: var(--surface-disabled-color);
+  --control-disabled-indented-bg-color: var(--text-disabled-color);
+  --control-disabled-inset-indented-color: var(--text-disabled-color);
+  --control-border-width: 1px;
+  --control-border-radius: 0.3em;
+  --control-border: var(--control-border-width) solid var(--control-border-color);
+  --control-padding: 0.5em 1em;
+  --control-internal-gap: 0.2em;
+  --control-raised-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.3);
+
+  // Clickable texts (e.g., link)
+  --clickable-text-color: var(--accent-color);
+  --clickable-text-highlight-color: var(--accent-secondary-color);
+  --clickable-text-active-color: var(--active-color);
+  --clickable-text-used-color: var(--visited-color);
+  --clickable-text-disabled-color: var(--text-disabled-color);
+
+  // Tables
+  --table-border-color: var(--control-border-color);
+  --table-border-width: 1px;
+  --table-header-border-color: var(--control-border-color);
+  --table-header-border-width: 2px;
+
+  // Containers
+  --container-padding: 1em;
+  --container-narrow-padding: 1em 0.5em;
+  --container-element-spacing: 0.5em;
+  --container-separator-color: #d0d0d0;
+
+  // Layouts
+  --content-gap-within-inline: 0.2em;
+  --content-gap-normal: 0.5em;
+  --content-gap-between-groups: 1em;
+  --content-gap-between-sections: 2em;
+  --content-max-readable-width: 40em;
+
+  // Messages (banners, notifications, etc)
+  --message-important-surface-color: var(--highlight-color);
+  --message-important-text-color: var(--text-color);
+
+  // Text sizes (relative)
+  --text-size-rel-xs: 75%; // XXX: use only for all-caps text
+  --text-size-rel-s: 87.5%;
+  --text-size-rel-n: 100%;
+  --text-size-rel-l: 120%;
+  --text-size-rel-xl: 150%;
+  --text-size-rel-xxl: 200%;
+
+  // Text sizes (absolute)
+  --text-size-abs-s: 0.875rem;
+  --text-size-abs-n: 1rem;
+  --text-size-abs-l: 1.2rem;
+  --text-size-abs-xl: 1.5rem;
+  --text-size-abs-xxl: 2rem;
+
+  // TODO: Compensates from base font size of 14px coming from SUI.
+  // This should be set to 1 once SUI is removed.
+  //
+  // How to use:
+  //
+  // In your container block, multiply the `font-size` with this value.
+  // For example:
+  //
+  //    .foo {
+  //      font-size: calc(var(--text-size-global-adjust) * var(--text-size-rel-n));
+  //    }
+  //
+  // You don't need to do this for descendants. Just once in the outermost container.
+  --text-size-global-adjust: 1.14;
+
+  // Animations
+  --transition-quick: 0.2s;
+
+  // Tags
+  --tag-generic-color: var(--accent-color);
+  --tag-disabled-color: var(--surface-disabled-inverse-color);
+
+  // Modal controls
+  --modal-control-box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.3);
+}

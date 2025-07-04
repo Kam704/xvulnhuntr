@@ -1,0 +1,118 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base/palette' as *;
+
+$result-group-padding: 1rem;
+$result-group-header-padding: 0.55rem;
+
+@mixin content-fit-cell {
+  width: 1%;
+}
+
+@mixin results-title {
+  color: $light-black;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding-bottom: $result-group-padding;
+  padding-top: $result-group-padding;
+}
+
+@mixin result-group {
+  td {
+    padding-bottom: $result-group-padding / 2;
+    padding-top: $result-group-padding / 2;
+
+    &:first-child {
+      padding-left: calc(#{$result-group-padding} + 1em);
+    }
+  }
+}
+
+.overview-results {
+  padding: 0;
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+    td {
+      padding-right: $result-group-padding;
+
+      &:first-child {
+        padding-left: $result-group-padding;
+      }
+    }
+
+    tr.no-results-title td {
+      @include results-title();
+      color: $gray;
+      font-style: italic;
+    }
+
+    tr.result-group-title {
+      td {
+        @include results-title();
+        padding-bottom: $result-group-padding / 2;
+      }
+
+      &:not(:first-child) td {
+        border-top: $gray;
+      }
+    }
+
+    tr.result-group-header {
+      @include result-group();
+
+      td .title {
+        border-bottom: 1px dotted $gray;
+        color: $dark-gray;
+        margin-bottom: -$result-group-header-padding;
+        padding-bottom: $result-group-header-padding;
+      }
+    }
+
+    tr.result-group-entry {
+      @include result-group();
+
+      &:hover {
+        background: $light-blue;
+      }
+    }
+
+    td.entry-time {
+      @include content-fit-cell();
+      font-weight: bold;
+    }
+
+    td.entry-type {
+      @include content-fit-cell();
+
+      img {
+        max-height: 2em;
+      }
+    }
+
+    td.entry-location {
+      @include content-fit-cell();
+
+      .location {
+        color: $dark-gray;
+      }
+
+      .room {
+        font-weight: bold;
+      }
+
+      .no-location {
+        color: $gray;
+        font-style: italic;
+      }
+    }
+  }
+}

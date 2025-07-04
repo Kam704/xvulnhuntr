@@ -1,0 +1,26 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@import 'rb:styles/palette';
+
+.booking-edit-form {
+  margin-top: 15px;
+}
+
+:global(.ui.inverted.segment).internal-notes-segment {
+  background: $internal-notes-segment-color;
+}
+
+.recurring-every-label {
+  font-size: 13px;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.repeat-frequency-disabled-notice :global(.icon.dont) {
+  font-size: 1.5em !important;
+}

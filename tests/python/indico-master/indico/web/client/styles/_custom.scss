@@ -1,0 +1,17 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+// ============================================================================
+// Use this for the sole purpose of ext_modules customization
+// ============================================================================
+
+@forward 'custom/dropzone';
+@forward 'custom/jquery-ui';
+@forward 'custom/jquery-ui-style.css';
+@forward 'custom/jquery-ui-datepicker';
+@forward 'custom/jquery-multiselect';
+@forward 'custom/sui';

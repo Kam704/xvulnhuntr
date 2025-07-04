@@ -1,0 +1,670 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+// XXX: too many duplicates in here, and I really don't want to bother figuring
+// out if they are needed for some strange reason
+// stylelint-disable no-duplicate-selectors
+
+@use 'base' as *;
+@use 'partials/buttons' as *;
+@use 'partials/boxes' as *;
+
+// ============================================================================
+// Base classes
+// ============================================================================
+
+@mixin regform-section {
+  @extend .i-box;
+  margin-top: 25px;
+}
+
+// ============================================================================
+// Section display
+// ============================================================================
+
+.regform-section {
+  @include regform-section();
+
+  .i-box-header {
+    table {
+      td {
+        vertical-align: top;
+      }
+    }
+
+    .clearableinput + .clearableinput {
+      margin-top: 3px;
+    }
+  }
+
+  .section-field-divisor {
+    & > span {
+      color: $gray;
+      font-size: 1.2em;
+      margin-left: 4px;
+      vertical-align: -8%;
+    }
+  }
+}
+
+// ============================================================================
+// Post-registration page
+// ============================================================================
+
+.regform-done {
+  @include regform-section();
+  margin-bottom: 15px;
+
+  table.registration-info {
+    border-collapse: collapse;
+    width: 100%;
+
+    &.payment-info {
+      td {
+        padding: 3px;
+      }
+    }
+  }
+
+  tr.regform-done-title {
+    td {
+      @include border-bottom(lighten($gray, $color-variation));
+      padding: 15px 0 5px 0;
+      font-size: 1.3em;
+    }
+
+    &:first-child td {
+      padding: 0;
+    }
+  }
+
+  tr:first-child .regform-done-title {
+    margin-top: 0;
+  }
+
+  .regform-done-caption {
+    border-bottom: 1px dashed lighten($gray, $color-variation);
+    border-right: 1px dashed lighten($gray, $color-variation);
+    color: $dark-gray;
+    font-weight: normal;
+    text-align: right;
+    padding: 0 8px 0 0;
+    width: 120px;
+  }
+
+  .regform-done-data {
+    padding: 0 0 0 5px;
+    vertical-align: top;
+
+    &.field {
+      padding: 0.5em;
+      padding-left: 5px;
+    }
+
+    ul {
+      margin-left: 1.2em;
+    }
+
+    &.field ul {
+      margin-left: 0;
+    }
+
+    .regform-participant-visibility {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin: 2px 0;
+
+      .old-visibility {
+        color: $light-black;
+        text-decoration: line-through;
+      }
+
+      .i-button {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .regform-done-table-title {
+    @include border-bottom(lighten($gray, $color-variation));
+    font-weight: bold;
+
+    &:not(:first-child) {
+      padding: 0 0 0 15px;
+    }
+  }
+
+  .regform-done-table-item {
+    td {
+      vertical-align: top;
+
+      &:not(:first-child) {
+        padding: 0 0 0 15px;
+      }
+
+      span.section-name {
+        color: $dark-gray;
+      }
+    }
+
+    &:nth-child(odd) {
+      background: $light-gray;
+    }
+  }
+
+  .regform-done-table-total {
+    @include border-top(lighten($gray, $color-variation));
+    font-weight: bold;
+    padding-top: 5px;
+
+    strong {
+      padding-right: 1em;
+    }
+  }
+
+  .regform-done-footer {
+    margin-top: 20px;
+
+    input[type='checkbox'] {
+      float: left;
+      margin-left: 1px;
+    }
+
+    label {
+      font-weight: normal;
+    }
+
+    td:first-child {
+      width: 100%;
+    }
+
+    td.regform-done-footer-button {
+      .i-button {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .regform-done-checkout {
+    font-size: 1.1em;
+    margin-top: 10px;
+  }
+
+  .not-selected {
+    color: $gray;
+    font-style: italic;
+  }
+
+  .payment-status {
+    font-weight: bold;
+
+    &.payment-done {
+      color: $green;
+    }
+
+    &.payment-pending {
+      color: $yellow;
+    }
+
+    &.payment-not-paid {
+      color: $red;
+    }
+
+    i {
+      font-size: 1.5em;
+
+      &::before {
+        vertical-align: -15%;
+      }
+    }
+  }
+
+  .payment-conditions-agreement {
+    color: $light-black;
+  }
+}
+
+.action-button {
+  @extend .i-button, .big, .highlight, .next;
+  font-weight: bold;
+  margin-left: 2em;
+  margin-right: 0;
+  white-space: nowrap;
+}
+
+.permalink-text {
+  color: $light-black;
+  margin-top: 2em;
+  text-align: center;
+
+  .permalink {
+    @include font-family-monospace();
+    color: $light-black;
+    font-size: 0.8em;
+    margin-top: 0.5em;
+    text-align: center;
+    width: 100%;
+  }
+
+  .management-page & {
+    margin-bottom: 1em;
+  }
+}
+
+// ============================================================================
+// Sortable-related
+// ============================================================================
+
+@mixin regform-sortable-placeholder {
+  background-color: $light-gray;
+}
+
+.regform-section-sortable-placeholder {
+  @include regform-sortable-placeholder();
+  @include regform-section();
+  @include border-all($gray, dashed);
+  box-shadow: none;
+}
+
+// ============================================================================
+// Animation-related
+// ============================================================================
+
+.regform-section .i-box-header {
+  @include transition(background, 1s, ease-out);
+}
+
+// ============================================================================
+// RegistrantsListStats-related
+// ============================================================================
+
+.registrant-stats > .i-box {
+  & > .i-box-content {
+    & > table {
+      border-collapse: collapse;
+      width: 100%;
+
+      thead {
+        tr:last-child th {
+          font-weight: bold;
+          border-bottom: 2px solid $gray;
+          padding-right: 5px;
+        }
+
+        th {
+          padding-right: 10px;
+          text-align: center;
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background-color: $light-gray;
+          }
+
+          &:nth-child(odd) {
+            background-color: white;
+          }
+
+          &:first-child td {
+            border-top: 0;
+          }
+
+          &:not(.sub-row) td.cancelled-item:first-child {
+            position: relative;
+
+            &::after {
+              border-bottom: 2px solid $light-black;
+              content: '';
+              left: 1%;
+              position: absolute;
+              right: 1%;
+              top: 48%;
+              width: 98%;
+            }
+          }
+        }
+
+        td {
+          border-top: 1px solid $gray;
+
+          &:first-child,
+          &:last-child {
+            font-weight: bold;
+          }
+
+          &.paid-unpaid-progress > .i-progress > .i-progress-bar {
+            &:first-child {
+              background: $pastel-green;
+            }
+
+            &:nth-child(2) {
+              background: $pastel-red;
+            }
+          }
+
+          &.no-stats-data {
+            color: $dark-gray;
+          }
+
+          &.paid-amount span {
+            color: $green;
+          }
+
+          &.unpaid-amount {
+            &::before {
+              content: '(';
+            }
+
+            &::after {
+              content: ')';
+            }
+
+            span {
+              color: $red;
+            }
+          }
+
+          &.stick-left {
+            padding-right: 1px;
+          }
+
+          &.stick-right {
+            padding-left: 1px;
+          }
+        }
+      }
+
+      tr {
+        td:first-child::before {
+          display: inline-block;
+          line-height: 1em;
+          font-size: 1.2em;
+          vertical-align: middle;
+          font-weight: bold;
+        }
+
+        &.header-row {
+          cursor: pointer;
+          user-select: none;
+
+          td:first-child {
+            @include icon-before('icon-arrow-down');
+
+            border-bottom: 0;
+
+            &::before {
+              @include rotate-transform(0.15s);
+            }
+          }
+
+          &.collapsed td:first-child::before {
+            transform: rotate(-90deg);
+          }
+        }
+
+        &.single-row td:first-child::before {
+          content: '\2001';
+        }
+
+        &.sub-row td:first-child {
+          border-top: 0;
+        }
+      }
+
+      th,
+      td {
+        padding: 5px;
+        text-align: right;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        i[class^='icon-'] {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .stats-overview {
+      font-size: 2em;
+      font-weight: bold;
+      color: $light-black;
+      display: block;
+
+      & > *.no-info {
+        font-size: 1em;
+        color: $dark-gray;
+        font-style: italic;
+        font-weight: lighter;
+      }
+
+      & > *:last-child {
+        float: right;
+        clear: both;
+      }
+    }
+
+    .stats-item {
+      display: block;
+      width: 100%;
+      position: relative;
+      margin: 0.6em 0;
+      font-size: 1.2em;
+      height: 1.5em;
+      vertical-align: middle;
+      color: $black;
+
+      & > * {
+        &:first-child {
+          position: relative;
+          line-height: 1.5em;
+          float: left;
+          margin-right: 0.4em;
+        }
+
+        &:last-child {
+          display: block;
+          overflow: auto;
+
+          & > .i-progress {
+            background-color: $pastel-green;
+
+            & > .i-progress-bar {
+              background-color: $pastel-red;
+            }
+          }
+        }
+      }
+    }
+
+    .jqplot-point-label {
+      color: white;
+      z-index: 100;
+    }
+
+    .jqplot-yaxis-tick {
+      right: 0;
+      margin-right: 0.5em;
+    }
+
+    .jqplot-xaxis-tick {
+      margin-top: 0.2em;
+    }
+  }
+
+  #countriesPlot {
+    user-select: none;
+
+    margin-top: -1.2em;
+  }
+}
+
+.invitation-list {
+  border-top: 0;
+
+  .invitation-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+    td {
+      padding: 0.35rem 5px 0.35rem 0;
+
+      &:first-child {
+        padding-left: 5px;
+      }
+
+      &.name {
+        font-weight: bold;
+        width: 34%;
+      }
+
+      &.email {
+        width: 34%;
+      }
+
+      &.affiliation {
+        width: 30%;
+      }
+
+      &.actions {
+        font-size: 1.2em;
+        padding: 0 5px;
+        width: 2%;
+        white-space: nowrap;
+
+        a {
+          color: $dark-gray;
+          vertical-align: sub;
+          visibility: hidden;
+
+          &:hover {
+            color: $blue;
+          }
+        }
+      }
+    }
+
+    tr:nth-child(odd) > td {
+      background: $light-gray;
+    }
+
+    tr:hover > td {
+      background: $light-blue !important;
+
+      &.actions a {
+        visibility: visible;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 2em;
+    }
+  }
+
+  .titled-rule {
+    margin-top: 0;
+  }
+}
+
+.registration-info {
+  tr.deleted-field {
+    background-color: $light-yellow;
+
+    td {
+      padding: 0.5em;
+
+      .deleted-field-warning {
+        color: $yellow;
+      }
+    }
+  }
+
+  tr.unpublished-receipt {
+    background-color: $pastel-gray;
+
+    .unpublished-receipt-warning {
+      color: $dark-gray;
+    }
+  }
+
+  tr {
+    td {
+      .purged-field-warning {
+        color: $yellow;
+      }
+    }
+  }
+}
+
+#registration-details {
+  .registration-unpaid {
+    color: $yellow;
+  }
+
+  .registration-complete,
+  .registration-allow-modification,
+  .registration-checked-in {
+    color: $green;
+  }
+
+  .registration-rejected,
+  .registration-withdrawn {
+    color: $red;
+  }
+}
+
+.regform-list {
+  h3 {
+    margin-top: 2em;
+  }
+}
+
+.disabled-sections {
+  display: none;
+}
+
+.disabled-caption {
+  color: $dark-gray;
+  margin: 30px 0 0 0;
+
+  a {
+    padding: 0 10px;
+    color: $dark-gray;
+  }
+}
+
+.registration-tags-assign-form {
+  width: 600px;
+}
+
+.picture-preview {
+  max-width: 100%;
+  max-height: 450px;
+}
+
+.no-data-placeholder {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+
+  i {
+    font-size: 3em;
+    color: $dark-gray;
+  }
+
+  span {
+    font-size: 1.5em;
+    color: $dark-gray;
+  }
+}

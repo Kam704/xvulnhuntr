@@ -1,0 +1,92 @@
+{% macro render_vc_room(event_vc_room, event) -%}
+    {% set vc_room = event_vc_room.vc_room %}
+    {% set plugin = vc_room.plugin %}
+    <ind-vc-room-segment class="ui segment vc-room-segment">
+        <div class="ui secondary menu">
+            <div class="item vc-icon">
+                <img src="{{ plugin.logo_url }}">
+            </div>
+            <div class="item vc-room-name">
+                {{ vc_room.name }}
+            </div>
+            <div class="right menu">
+                <div class="item">
+                    {{ plugin.render_event_buttons(vc_room, event_vc_room) | safe }}
+                </div>
+                <div class="item">
+                    <a class="ui mini button basic expand-button icon">
+                        <i class="chevron down icon"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="ui bottom attached secondary segment">
+            {{ plugin.render_info_box(vc_room, event_vc_room, event) | safe }}
+        </div>
+    </ind-vc-room-segment>
+{%- endmacro %}
+
+{%- macro render_conference_vc_rooms_list(event, event_vc_rooms) -%}
+    <div class="ui top attached blue inverted segment">
+        <i class="ui icon video"></i>
+        {% trans %}Videoconference{% endtrans %}
+    </div>
+    {% for event_vc_room in event_vc_rooms %}
+        {% set vc_room = event_vc_room.vc_room %}
+        {% set plugin = vc_room.plugin %}
+        <ind-vc-room-segment class="ui {% if loop.last %}bottom{% endif %} attached segment">
+            <div class="ui compact secondary menu">
+                <div class="item vc-icon">
+                    <img src="{{ plugin.logo_url }}">
+                </div>
+                <div class="item vc-room-name">
+                    {{ vc_room.name }}
+                </div>
+                <div class="right menu">
+                    <div class="item">
+                        {{ plugin.render_event_buttons(vc_room, event_vc_room) | safe }}
+                    </div>
+                </div>
+            </div>
+        </ind-vc-room-segment>
+    {% endfor %}
+{%- endmacro %}
+
+{% macro render_vc_rooms_list(event, event_vc_rooms, linked_to=None) -%}
+    <div class="vc-room-list">
+        {% if linked_to %}
+            {% if linked_to.event %}
+                <div class="groupTitleNoBorder event-service-association-title">
+                    {{ event.title }}<span class="event-service-association-subtitle">{% trans %}Event{% endtrans %}</span>
+                </div>
+                {% for event_vc_room in linked_to.event[event]|sort(attribute='vc_room.name') %}
+                    {{ render_vc_room(event_vc_room, event) }}
+                {% endfor %}
+            {% endif %}
+            {% if linked_to.contribution %}
+                {% for contrib, event_vc_rooms in linked_to.contribution.items()|sort(attribute='0.title') %}
+                    <div class="groupTitleNoBorder event-service-association-title">
+                        {{ contrib.title }}<span class="event-service-association-subtitle">{% trans %}Contribution{% endtrans %}</span>
+                    </div>
+                    {% for event_vc_room in event_vc_rooms|sort(attribute='vc_room.name') %}
+                        {{ render_vc_room(event_vc_room, event) }}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            {% if linked_to.block %}
+                {% for block, event_vc_rooms in linked_to.block.items()|sort(attribute='0.full_title') %}
+                    <div class="groupTitleNoBorder event-service-association-title">
+                        {{ block.full_title }}<span class="event-service-association-subtitle">{% trans %}Session{% endtrans %}</span>
+                    </div>
+                    {% for event_vc_room in event_vc_rooms|sort(attribute='vc_room.name') %}
+                        {{ render_vc_room(event_vc_room, event) }}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            {% for event_vc_room in event_vc_rooms %}
+                {{ render_vc_room(event_vc_room, event) }}
+            {% endfor %}
+        {% endif %}
+    </div>
+{%- endmacro %}

@@ -1,0 +1,168 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2024 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+import {readFileSync} from 'fs';
+import path from 'path';
+
+// eslint-disable-next-line import/default
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import glob from 'glob';
+import {minify} from 'uglify-js';
+import webpack from 'webpack';
+import {customizeArray, mergeWithCustomize} from 'webpack-merge';
+
+import {
+  getThemeEntryPoints,
+  webpackDefaults,
+  indicoStaticLoader,
+  generateAssetPath,
+} from './webpack/base.mjs';
+
+const config = JSON.parse(readFileSync('./webpack-build-config.json'));
+
+let entryPoints = {
+  jquery: ['./js/jquery/index.js'],
+  exports: ['./js/exports.js'],
+  main: ['./js/index.js'],
+  conferences: ['./styles/legacy/Conf_Basic.scss'],
+  markdown: ['./js/jquery/markdown.js'],
+  mathjax: ['./js/jquery/compat/mathjax.js'],
+  statistics: ['./js/jquery/statistics.js'],
+  fonts: ['./styles/partials/_fonts.scss'],
+  outdatedbrowser: ['./js/outdatedbrowser/index.js'],
+};
+
+const modulesDir = path.join(config.build.rootPath, '..', 'node_modules');
+const extraResolveAliases = [
+  {name: 'jquery', alias: path.resolve(modulesDir, 'jquery/src/jquery')},
+];
+const pdfjsVersion = JSON.parse(readFileSync(path.join(modulesDir, 'pdfjs-dist', 'package.json')))
+  .version;
+
+// Add Module Bundles
+glob
+  .sync(path.join(config.build.rootPath, 'modules/**/module.json'))
+  .sort((a, b) => b.split('/').length - a.split('/').length)
+  .forEach(file => {
+    const module = {produceBundle: true, partials: {}, ...JSON.parse(readFileSync(file))};
+    // eslint-disable-next-line prefer-template
+    const moduleName = 'module_' + (module.parent ? module.parent + '.' : '') + module.name;
+    const dirName = path.join(path.dirname(file), 'client/js');
+
+    if (module.produceBundle) {
+      entryPoints[moduleName] = [dirName];
+    }
+    const modulePath = path.join('indico/modules', module.parent || '', module.name);
+    extraResolveAliases.push({name: modulePath, alias: dirName, onlyModule: false});
+
+    if (module.partials) {
+      for (const partial of Object.entries(module.partials)) {
+        entryPoints[`${moduleName}.${partial[0]}`] = [path.resolve(dirName, partial[1])];
+      }
+    }
+  });
+
+// This has to be last in the array, since it's the most general alias.
+// Otherwise, it would be caught before 'indico/modules/...'
+extraResolveAliases.push({
+  name: 'indico',
+  alias: path.join(config.build.clientPath, 'js/'),
+  onlyModule: false,
+});
+
+// Add Meeting Themes
+entryPoints = Object.assign(entryPoints, getThemeEntryPoints(config, './themes/'));
+
+export default env => {
+  const currentEnv = (env ? env.NODE_ENV : null) || 'development';
+
+  // Minification of copied files (e.g. MathJax)
+  const transform =
+    currentEnv === 'development'
+      ? undefined
+      : (content, filePath) => {
+          if (!filePath.match(/\.js$/)) {
+            return content;
+          }
+          const result = minify(content.toString());
+          if (result.error) {
+            throw result.error;
+          }
+          return result.code;
+        };
+
+  return mergeWithCustomize({
+    customizeArray: customizeArray({
+      'resolve.alias': 'prepend',
+    }),
+  })(webpackDefaults(env, config), {
+    entry: entryPoints,
+    module: {
+      rules: [
+        {
+          test: /client\/js\/legacy\/libs\/.*$/,
+          use: 'script-loader',
+        },
+        {
+          test: /\.tpl\.html$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              context: config.build.distPath,
+              outputPath: 'mod_assets/',
+            },
+          },
+        },
+        {
+          include: /jquery-migrate/,
+          parser: {
+            amd: false,
+          },
+        },
+        indicoStaticLoader(config),
+        {
+          test: /\/node_modules\/.*\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/,
+          use: {
+            loader: 'file-loader',
+            options: {
+              name: generateAssetPath(config),
+              context: config.build.distPath,
+              outputPath: 'mod_assets/',
+              publicPath: `${config.build.distURL}mod_assets/`,
+            },
+          },
+        },
+      ],
+    },
+    plugins: [
+      new CopyWebpackPlugin({
+        // mathjax requests some assets dynamically after it has been loaded,
+        // so we copy everything to the dist folder.
+        patterns: [
+          {from: path.resolve(modulesDir, 'mathjax'), to: 'js/mathjax', transform},
+          {
+            from: path.resolve(modulesDir, 'pdfjs-dist/build/pdf.worker.min.mjs'),
+            to: `js/pdf.worker-${pdfjsVersion}.min.js`,
+          },
+        ],
+      }),
+      new webpack.ProvidePlugin({
+        _: ['underscore', 'default'],
+        moment: 'moment',
+      }),
+    ],
+    resolve: {
+      alias: extraResolveAliases,
+      // TODO remove after updating react:
+      fallback: {
+        'react/jsx-runtime': 'react/jsx-runtime.js',
+        'react/jsx-dev-runtime': 'react/jsx-dev-runtime.js',
+      },
+    },
+  });
+};

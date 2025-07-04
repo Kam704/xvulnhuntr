@@ -1,0 +1,133 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'design_system';
+
+ind-with-tooltip,
+ind-with-toggletip {
+  // The following are set by JavaScript in positioning.js
+  --arrow-left: auto;
+  --arrow-right: auto;
+  --arrow-top: auto;
+  --arrow-bottom: auto;
+  --arrow-direction: 0;
+
+  // Flexbox ensures the tip content box is center-aligned
+  // with the element to which it refers.
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  --tooltip-surface-color: #333;
+  --tooltip-text-color: #fff;
+
+  [data-tip-content] {
+    @extend %popup-positioned-target;
+    // The following are set by JavaScript in positioning.js
+    display: block;
+    z-index: 1;
+
+    width: max-content;
+    max-width: min(calc(100dvw - 1em), 40ch);
+    padding: 0.5em;
+
+    // XXX: The transparent border serves as faux margin to reduce the number of HTML elements involved
+    border: solid transparent;
+    border-width: 0.5em 0;
+
+    cursor: default;
+    color: var(--tooltip-text-color);
+
+    // Reset the default text appearance
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem; // FIXME: this needs the base font size to be addressed!
+    text-align: center;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  [data-tip-content] > * {
+    position: relative;
+  }
+
+  &[orientation='horizontal'] [data-tip-content] {
+    border-width: 0 0.5em;
+  }
+
+  // The orientation attribute may be unset, so instead
+  // of testing that [orientation='vertical'] we test that
+  // :not([orientation='horizontal'])
+  &:not([orientation='horizontal']) [data-tip-content] {
+    border-width: 0.5em 0;
+  }
+
+  &:not([shown]) [data-tip-content] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  // Content background
+  //
+  // We use a transparent border to provide the necessary offset
+  // for the arrow. Because of that, we can't give the tip content
+  // element a background. Instead we create a pseudo-element to
+  // provide the background.
+  [data-tip-content]::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
+    background: var(--tooltip-surface-color);
+    border-radius: 0.2em;
+  }
+
+  // Arrows
+  &[shown]::after {
+    --arrow-size: 0.5em;
+
+    content: '';
+    position: absolute;
+    display: inline-block;
+
+    // The default appearance of the arrow always has it pointing up
+    // and the actual direction is controlled via rotation
+    border-style: solid;
+    border-color: transparent transparent var(--tooltip-surface-color) transparent;
+    border-width: var(--arrow-size);
+    transform: rotate(var(--arrow-direction));
+  }
+
+  &[orientation='horizontal']::after {
+    left: calc(var(--arrow-left) - var(--arrow-size) + 0.1em);
+    right: calc(100% - var(--arrow-size) + 0.1em);
+    top: calc(50% - var(--arrow-size));
+  }
+
+  // The orientation attribute may be unset, so instead
+  // of testing that [orientation='vertical'] we test that
+  // :not([orientation='horizontal'])
+  &:not([orientation='horizontal'])::after {
+    top: calc(var(--arrow-top) - var(--arrow-size) + 0.1em);
+    bottom: calc(100% - var(--arrow-size) + 0.1em);
+    left: calc(50% - var(--arrow-size));
+  }
+}
+
+ind-with-toggletip {
+  display: inline-flex;
+
+  button {
+    @extend %flex-inline-center;
+  }
+}

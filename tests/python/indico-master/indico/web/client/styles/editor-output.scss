@@ -1,0 +1,78 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+// Neither ckeditor nor the markdown editor implement the styles shown in their
+// preview - they need to be manually implemented.
+// These styles apply to the generated output in conference & event description,
+// minutes and custom conference pages.
+
+// XXX: even though we removed ckeditor those styles need to stay since e.g. the
+// classes are used in existing event notes; and generally the formatting is useful
+.editor-output {
+  // Image positioning for ckeditor5
+  // https://ckeditor.com/docs/ckeditor5/latest/features/images/images-styles.html
+  // Inspired by the default ckeditor styles:
+  // https://github.com/ckeditor/ckeditor5/blob/06d11a85/packages/ckeditor5-image/theme/imagestyle.css
+  $image-spacing: 1.5em;
+  display: flow-root;
+
+  img {
+    max-width: 100%;
+  }
+
+  // Applies to centered images, which by default have no class added
+  figure {
+    margin: $image-spacing auto;
+  }
+
+  .image-style-align-left,
+  .image-style-align-right,
+  .image-style-side {
+    margin-top: $image-spacing;
+    margin-bottom: $image-spacing;
+  }
+
+  .image-style-align-left {
+    float: left;
+    margin-right: $image-spacing;
+  }
+
+  .image-style-align-right,
+  .image-style-side {
+    float: right;
+    margin-left: $image-spacing;
+  }
+
+  .image-style-side {
+    max-width: 50%;
+  }
+
+  &.weak-hidden {
+    display: none;
+  }
+
+  // Nicer quote & code formatting
+  blockquote {
+    padding: 5px 8px 5px 30px;
+    background-color: rgba(102, 128, 153, 0.05);
+    border-left: 10px solid #d6dbdf;
+  }
+
+  pre,
+  code {
+    background-color: #f5f5f5;
+  }
+
+  ul,
+  ol {
+    margin-left: 3em;
+  }
+
+  :is(ul, ol) :is(ul, ol) {
+    margin-left: 1.2em;
+  }
+}

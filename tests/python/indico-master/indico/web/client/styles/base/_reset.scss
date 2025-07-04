@@ -1,0 +1,56 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select,
+blockquote {
+  font: inherit;
+}
+
+fieldset,
+legend,
+ul,
+menu {
+  padding: 0;
+}
+
+fieldset,
+ul,
+blockquote,
+menu {
+  margin: 0;
+}
+
+fieldset {
+  border: none;
+}
+
+button:not(:disabled),
+select:not(:disabled),
+input[type='checkbox']:not(:disabled),
+input[type='radio']:not(:disabled),
+label,
+summary {
+  cursor: pointer;
+}
+
+:disabled label,
+label:has(:disabled) {
+  cursor: default;
+}
+
+summary {
+  list-style: none;
+}

@@ -1,0 +1,68 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'partials/icons' as *;
+
+@mixin icon-after($icon-class) {
+  &::after {
+    @extend %icon;
+    @extend %#{$icon-class};
+    margin-left: 0.2em;
+  }
+}
+
+@mixin icon-before($icon-class) {
+  &::before {
+    @extend %icon;
+    @extend %#{$icon-class};
+  }
+}
+
+@mixin apply-to-inputs($class) {
+  input[type='date'],
+  input[type='datetime'],
+  input[type='datetime-local'],
+  input[type='email'],
+  input[type='month'],
+  input[type='number'],
+  input[type='password'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'],
+  input[type='time'],
+  input[type='url'],
+  input[type='week'] {
+    @extend #{$class};
+  }
+}
+
+@mixin apply-to-text-inputs($class) {
+  input[type='datetime'],
+  input[type='datetime-local'],
+  input[type='email'],
+  input[type='month'],
+  input[type='password'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'],
+  input[type='url'],
+  input[type='week'] {
+    @extend #{$class};
+  }
+}
+
+@mixin ellipsis($no-wrap: true) {
+  @if $no-wrap {
+    white-space: nowrap;
+  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis {
+  @include ellipsis();
+}

@@ -1,0 +1,123 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base' as *;
+@use 'design_system';
+
+%i-badges-list {
+  @extend %flex-row;
+  flex-wrap: wrap;
+  align-items: stretch; // Ensure that all items inside the list have the same height
+}
+
+.i-badges-list {
+  @extend %i-badges-list;
+  justify-content: flex-start;
+}
+
+.i-badges-list-space-evenly {
+  @extend %i-badges-list;
+  justify-content: space-evenly;
+}
+
+/// Sets the badge color
+@mixin i-badge-color($text-color, $bg-color, $border-color, $hover: false) {
+  background-color: $bg-color;
+
+  &,
+  & * {
+    color: $text-color;
+  }
+
+  & > .i-badge-legend {
+    border-color: $border-color;
+  }
+
+  @if $hover {
+    &:not(.i-badge-disabled):hover {
+      background-color: darken($bg-color, $light-color-variation);
+    }
+  }
+}
+
+.i-badge {
+  @include default-border-radius();
+  @include transition(background-color $default-transition-duration $default-transition-function);
+
+  --flex-gap: 0;
+  @extend %flex-column;
+  justify-content: space-between; // This pushes the legend to the bottom
+
+  text-align: center;
+  box-shadow: 0 2px 1px 0 $gray;
+  min-width: 10em;
+  @include i-badge-color($light-blue, $dark-blue, $light-gray, true); // Default badge color
+
+  &.i-badge-gray {
+    @include i-badge-color($light-black, $light-gray, $gray, true);
+  }
+
+  &.i-badge-disabled {
+    cursor: default;
+  }
+
+  & > .i-badge-content {
+    --flex-gap: 0.5em;
+    @extend %flex-column;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 1em;
+
+    & > .i-badge-value {
+      font-size: 3.6em;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    & > .i-badge-img {
+      font-size: 3em;
+      max-height: 1em;
+
+      & > img {
+        max-width: 100%;
+        max-height: 1em;
+      }
+    }
+
+    & > .i-badge-title {
+      max-width: 100%;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+  }
+
+  & > .i-badge-legend {
+    display: flex;
+    padding: 0 0.5em;
+    border-top-width: 1px;
+    border-top-style: solid;
+
+    & > .i-badge-legend-right {
+      margin-left: auto;
+    }
+
+    & > .ellipsize {
+      @include ellipsis();
+    }
+  }
+}
+
+span.badge {
+  border-radius: 5px;
+  padding: 0.1em 0.4em;
+  font-size: 0.8em;
+  margin-left: 0.5em;
+  color: #fff;
+  background: $blue;
+  white-space: nowrap;
+  line-height: initial;
+}

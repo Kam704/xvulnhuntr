@@ -1,0 +1,28 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base' as *;
+@use 'partials/_badges' as badges;
+
+@mixin i-request-state($state, $color, $light-color, $dark-color) {
+  &.i-request-#{$state} {
+    @include badges.i-badge-color($color, $light-color, $dark-color, true);
+  }
+}
+
+.i-requests-list {
+  & > .i-badge {
+    width: 10em;
+    min-height: 6em;
+
+    @include i-request-state(none, $light-blue, $dark-blue, $light-gray);
+    @include i-request-state(accepted, $green, $light-green, $dark-green);
+    @include i-request-state(rejected, $red, $light-red, $dark-red);
+    @include i-request-state(pending, $yellow, $light-yellow, $dark-yellow);
+    @include i-request-state(withdrawn, $gray, $light-gray, $dark-gray);
+  }
+}

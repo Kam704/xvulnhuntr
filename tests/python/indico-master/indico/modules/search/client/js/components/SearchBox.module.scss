@@ -1,0 +1,43 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base/palette' as *;
+@use 'base/utilities' as *;
+@use 'design_system';
+
+.search-type-option {
+  @extend %flex-row;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    @include ellipsis();
+    font-size: 0.95em;
+    color: $dark-gray;
+    width: 50%;
+  }
+}
+
+.checkbox-admin-search:global(.ui.checkbox) {
+  display: flex;
+  justify-content: space-between;
+
+  label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: $dark-gray;
+  }
+}
+
+:global(.ui.search > .results > .result.cursor-default) {
+  cursor: default;
+}
+
+.search-field > span {
+  @extend %visually-hidden;
+}

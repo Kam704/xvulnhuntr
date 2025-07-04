@@ -1,0 +1,11 @@
+# Legacy
+indico/web/client/js/legacy/
+
+# Not legacy, but not tidy either
+indico/web/client/js/jquery/
+
+# Not actually JavaScript
+indico/web/templates/assets
+
+# Generated content
+indico/web/static/dist/

@@ -1,0 +1,337 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'design_system';
+@use 'partials/icons';
+@use 'partials/sui_debt';
+
+ind-date-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--control-internal-gap);
+  align-items: flex-start;
+  position: relative;
+
+  text-align: left;
+
+  > input {
+    padding-right: 2.5em;
+  }
+
+  > button {
+    @extend %text-size-reset;
+    @extend %button-icon-only;
+
+    position: absolute;
+    right: 0.2em;
+    top: 0.2em;
+    width: 2em;
+    aspect-ratio: 1;
+  }
+
+  > button::before {
+    @extend %icon;
+    @extend %icon-calendar;
+  }
+
+  > button:disabled {
+    pointer-events: none;
+    opacity: 0.45;
+  }
+
+  > button span {
+    @extend %visually-hidden;
+  }
+
+  .date-format {
+    @extend %visually-hidden;
+  }
+}
+
+ind-date-range-picker {
+  position: relative;
+
+  text-align: left;
+
+  fieldset {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    @include sui_debt.input();
+
+    &:focus-within {
+      @include sui_debt.field-override() {
+        @include sui_debt.input-border();
+      }
+    }
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: var(--control-padding);
+  }
+
+  label span {
+    font-weight: bold;
+  }
+
+  fieldset button {
+    @extend %button-icon-only;
+    padding: var(--control-padding);
+
+    &::before {
+      @extend %icon;
+      @extend %icon-calendar;
+    }
+  }
+
+  input[type='text'] {
+    @include sui_debt.nested-input-font-weight();
+    @include sui_debt.field-override() {
+      max-width: 9em !important;
+      padding: 0;
+      border: 0;
+    }
+  }
+
+  legend {
+    @extend %visually-hidden;
+  }
+
+  .arrow::before {
+    @extend %icon;
+    @extend %icon-arrow-right-sparse;
+    color: var(--text-secondary-color);
+  }
+
+  .date-format {
+    @extend %visually-hidden;
+  }
+
+  .calendars {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+  }
+}
+
+ind-calendar {
+  @extend %text-size-reset;
+
+  dialog[open],
+  dialog[data-position-check] {
+    @extend %popup-positioned-target;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    z-index: 10;
+
+    padding: 0.5em;
+    margin: 0;
+
+    border: 0;
+    border-radius: var(--control-border-radius);
+  }
+
+  dialog[open] {
+    box-shadow: var(--control-raised-shadow);
+  }
+
+  dialog[data-position-check] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .controls,
+  .month-year {
+    display: flex;
+    gap: 0.5em;
+  }
+
+  .controls {
+    justify-content: space-between;
+  }
+
+  .controls > button {
+    @extend %button-icon-only;
+    flex: none;
+    width: 2em;
+
+    &::before {
+      @extend %icon;
+    }
+
+    > span {
+      @extend %visually-hidden;
+    }
+  }
+
+  .controls [value='previous-year']::before {
+    @extend %icon-first;
+  }
+
+  .controls [value='previous-month']::before {
+    @extend %icon-prev;
+  }
+
+  .controls [value='next-month']::before {
+    @extend %icon-next;
+  }
+
+  .controls [value='next-year']::before {
+    @extend %icon-last;
+  }
+
+  .controls .month-year {
+    flex: 1;
+  }
+
+  .month-year :is(select, input[type='number']) {
+    flex: 1;
+
+    @include sui_debt.field-override() {
+      width: 2em;
+      padding: 0.5em;
+      border-radius: var(--control-border-radius);
+      border-color: var(--control-border-color);
+      -webkit-appearance: auto;
+
+      &:focus-visible {
+        outline: revert;
+        -webkit-appearance: auto;
+      }
+
+      // Override for _input.scss select:-foz-focusring
+      &:-moz-focusring {
+        color: unset !important;
+        text-shadow: unset !important;
+        outline: revert;
+      }
+    }
+
+    @include sui_debt.field-error-override() {
+      border-color: var(--control-border-color);
+      background: transparent;
+      color: inherit;
+      -webkit-appearance: auto;
+
+      &:focus-visible {
+        outline: solid;
+        -webkit-appearance: auto;
+      }
+    }
+  }
+}
+
+ind-date-grid {
+  min-width: 20em;
+
+  .month-label {
+    font-weight: bold;
+    padding: 0.5em 0.5em 0.2em;
+  }
+
+  &:not(:first-child) .month-label {
+    text-align: right;
+  }
+
+  [role='listbox'],
+  .weekdays {
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    row-gap: 0.2em;
+    width: 100%;
+  }
+
+  [role='listbox'] {
+    aspect-ratio: 7/6; // 7 cells across x 6 rows
+  }
+
+  .weekdays {
+    font-weight: bold;
+  }
+
+  .weekdays > * {
+    @extend %flex-inline-center;
+    aspect-ratio: 1;
+    text-decoration: none;
+  }
+
+  .weekdays [data-weekend] {
+    color: var(--text-secondary-color);
+  }
+
+  [role='listbox'] button {
+    aspect-ratio: 1;
+
+    background-color: transparent;
+    border: none;
+    transition: all 0.2s;
+
+    &[data-range-start] {
+      border-top-left-radius: var(--control-border-radius);
+      border-bottom-left-radius: var(--control-border-radius);
+    }
+
+    &[data-range-end] {
+      border-top-right-radius: var(--control-border-radius);
+      border-bottom-right-radius: var(--control-border-radius);
+    }
+
+    &[data-current-month='true'] {
+      color: var(--control-text-color);
+    }
+
+    &[data-current-month='false'] {
+      color: var(--text-secondary-color);
+      background: var(--background-secondary);
+    }
+
+    &[data-current-month='false']:empty {
+      pointer-events: none;
+    }
+
+    &[aria-selected] {
+      background-color: var(--surface-accent-secondary-color);
+    }
+
+    &[aria-selected][data-range-start],
+    &[aria-selected][data-range-end] {
+      background-color: var(--surface-accent-color);
+      color: var(--text-inverse-color);
+    }
+
+    &[aria-disabled] {
+      cursor: not-allowed;
+    }
+
+    &[aria-disabled]:not([aria-selected]) {
+      opacity: 0.2;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--control-clickable-surface-focus-color);
+      color: var(--control-text-color);
+    }
+
+    &[aria-selected]:hover,
+    &[aria-selected]:focus-visible {
+      background-color: var(--control-alt-clickable-surface-focus-color);
+      color: var(--control-alt-text-color);
+    }
+
+    &:focus-visible {
+      z-index: 1;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@forward 'modules/abstracts';
+@forward 'modules/admin';
+@forward 'modules/agreements';
+@forward 'modules/attachments';
+@forward 'modules/auth';
+@forward 'modules/bootstrap';
+@forward 'modules/category';
+@forward 'modules/category_management';
+@forward 'modules/contributions';
+@forward 'modules/dashboard';
+@forward 'modules/designer';
+@forward 'modules/event_display';
+@forward 'modules/event_management';
+@forward 'modules/eventservices';
+@forward 'modules/markdown';
+@forward 'modules/news';
+@forward 'modules/overviews';
+@forward 'modules/papers';
+@forward 'modules/payment';
+@forward 'modules/registrationform';
+@forward 'modules/reviewing';
+@forward 'modules/sessions';
+@forward 'modules/surveys';
+@forward 'modules/timetable';
+@forward 'modules/tracks';
+@forward 'modules/users';
+@forward 'modules/vc';
+@forward 'modules/roles';

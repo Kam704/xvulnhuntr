@@ -1,0 +1,111 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use './palette' as *;
+@use './borders' as *;
+
+$semantic-color-map: (
+  highlight: $blue,
+  success: $green,
+  error: $red,
+  warning: $yellow,
+  visited: $purple,
+  strong: $black,
+  editing-rejected: $midnight-black,
+  editing-make-changes: $bright-yellow,
+  editing-request-changes: $dark-red,
+  editing-accepted-submitter: $olive,
+);
+
+// styles that are prefixed with 'editing-' are used exclusively
+// in the editing module and should not be [mis]used elsewhere.
+
+$semantic-styles: (
+  highlight,
+  success,
+  error,
+  warning,
+  visited,
+  strong,
+  editing-rejected,
+  editing-make-changes,
+  editing-request-changes,
+  editing-accepted-submitter
+);
+
+@mixin _semantic-background($color) {
+  @include border-all($color);
+  background: $color;
+}
+
+@mixin _semantic-outline($color) {
+  @include border-all($color);
+  color: $color;
+}
+
+@mixin semantic-versions {
+  @each $style in $semantic-styles {
+    &.#{$style} {
+      @content;
+    }
+  }
+}
+
+@mixin _semantic-colors {
+  @each $style in $semantic-styles {
+    &.#{$style} {
+      color: map-get($semantic-color-map, $style);
+    }
+  }
+}
+
+@mixin semantic-background {
+  @include _semantic-background($dark-gray);
+  color: white;
+
+  @each $style in $semantic-styles {
+    &.#{$style} {
+      @include _semantic-background(map-get($semantic-color-map, $style));
+    }
+  }
+}
+
+@mixin semantic-outline {
+  @include _semantic-outline($dark-gray);
+
+  @each $style in $semantic-styles {
+    &.#{$style} {
+      @include _semantic-outline(map-get($semantic-color-map, $style));
+    }
+  }
+}
+
+@mixin semantic-link {
+  color: $gray;
+
+  &:not(.disabled) {
+    &:hover,
+    &:active,
+    &.active {
+      color: $black;
+      @include _semantic-colors();
+    }
+  }
+
+  &.disabled {
+    color: $gray;
+  }
+}
+
+.semantic-text {
+  color: $dark-gray;
+  @include _semantic-colors();
+}
+
+.semantic-background {
+  @include semantic-background();
+}

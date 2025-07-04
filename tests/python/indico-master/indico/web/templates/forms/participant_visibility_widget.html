@@ -1,0 +1,16 @@
+{% extends 'forms/base_widget.html' %}
+
+{% block html %}
+    <div id="{{ field.id }}-wrapper"></div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        setupParticipantVisibilityWidget({
+            fieldId: {{ field.id | tojson }},
+            values: {{ field.data | tojson }},
+            choices: {{ field.choices | tojson }},
+            maxVisibilityPeriod: {{ field.max_visibility_period | tojson }},
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,187 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base' as *;
+
+@mixin user-action($color, $final-color: $color) {
+  @include user-action-button();
+  color: $color;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+@mixin user-action-button {
+  @include transition(color 0.25s, opacity, 0.25s);
+  display: inline;
+  height: 1.3em;
+  font-size: 1.3em;
+  line-height: 1.3em;
+  margin-left: 0.3em;
+  cursor: pointer;
+  vertical-align: baseline;
+}
+
+.suggested-users {
+  max-width: 250px;
+  max-height: 450px;
+  overflow-y: scroll;
+
+  .user-list li .info {
+    max-width: 200px;
+  }
+}
+
+.suggested-users,
+.user-search-results {
+  overflow: auto;
+
+  .user-list {
+    li {
+      cursor: pointer;
+    }
+
+    .listMessage {
+      color: $dark-gray;
+      border: 0;
+      font-style: italic;
+      text-align: center;
+      cursor: auto;
+    }
+  }
+}
+
+.event-user {
+  @include default-border-radius();
+  @include icon-before('icon-user');
+
+  display: inline-block;
+  font-size: 0.95em;
+  padding: 0.2em 0.5em;
+  margin-bottom: 0.1em;
+  color: $black;
+  background: $pastel-gray;
+
+  &::before {
+    color: $gray;
+    margin-right: 0.4em;
+  }
+
+  &:not(:first-child) {
+    margin-left: 0.1em;
+  }
+
+  .affiliation {
+    color: $dark-gray;
+    font-size: 0.9em;
+  }
+}
+
+.user-search-results {
+  height: 300px;
+  border: 1px solid $gray;
+  width: 450px;
+  overflow: auto;
+}
+
+.account-no-identities {
+  color: $dark-gray;
+  font-style: italic;
+}
+
+.category-box {
+  position: relative;
+  padding: 0.5rem !important;
+
+  > div {
+    position: relative;
+
+    display: table;
+    overflow: hidden;
+
+    width: 100%;
+
+    table-layout: fixed;
+  }
+
+  .category-box-info,
+  .category-action {
+    position: relative;
+
+    display: table-cell;
+    float: none;
+
+    padding: 0;
+
+    vertical-align: middle;
+  }
+
+  .category-box-info {
+    .category-box-title,
+    .category-path {
+      @include ellipsis();
+
+      display: block;
+    }
+
+    .category-path {
+      line-height: 1;
+
+      margin-top: 0.4em;
+
+      ul {
+        font-weight: normal;
+        overflow: hidden;
+
+        max-width: 92%;
+        padding: 0;
+
+        list-style: none;
+
+        text-align: left;
+
+        color: $dark-gray;
+
+        li {
+          @include ellipsis();
+
+          display: inline-block;
+          padding: 0;
+          border-bottom: 0;
+
+          &:last-child {
+            max-width: 100%;
+          }
+
+          & + li::before {
+            padding: 0 0.2em;
+
+            content: '»';
+          }
+        }
+      }
+    }
+  }
+
+  .category-action {
+    width: 1.2em;
+    font-size: 1.2em;
+  }
+
+  .category-action-extra {
+    font-size: 0.8em;
+    font-weight: normal;
+
+    margin-top: 0.2rem;
+  }
+}
+
+.unlisted-events-action {
+  font-size: 1.05em;
+}

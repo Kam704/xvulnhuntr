@@ -1,0 +1,30 @@
+-c requirements.txt
+build
+flask-url-map-serializer
+freezegun
+hatchling
+hatch-requirements-txt
+isort
+migra
+plantweb
+pygments
+pytest-cov
+pytest-localserver[smtp]
+pytest-mock
+pytest-redis
+pytest-snapshot
+pytest
+responses
+ruff
+sphinx-autobuild
+sphinx-issues
+sphinx-reredirects
+sphinx-rtd-theme
+sphinx!=4.0.*  # not compatible with jinja 3 - https://github.com/sphinx-doc/sphinx/issues/9216
+sphinxcontrib-mermaid
+sqlparse
+tomlkit
+unbeheader
+uv
+watchfiles
+wheel

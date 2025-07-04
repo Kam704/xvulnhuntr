@@ -1,0 +1,15 @@
+{
+  "name": "events",
+  "produceBundle": false,
+  "partials": {
+    "admin": "./admin",
+    "cloning": "./cloning",
+    "creation": "./creation",
+    "display": "./display",
+    "header": "./header",
+    "importing": "./importing",
+    "layout": "./layout",
+    "roles": "./roles",
+    "search": "./search"
+  }
+}

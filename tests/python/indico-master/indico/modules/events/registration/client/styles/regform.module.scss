@@ -1,0 +1,460 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base/palette' as *;
+@use 'base/utilities' as *;
+
+.setup-toolbar {
+  margin-bottom: 1em;
+}
+
+.disabled-sections {
+  // TODO turn this into something generic - the same CSS is used in the editing TagManager
+  :global(.segment) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .actions {
+      min-width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      i:global(.icon) {
+        margin-right: 0;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.form-item {
+  --max-form-item-width: 36em;
+
+  display: flex;
+  margin-top: 10px;
+  padding-top: 3px;
+
+  &:last-child {
+    padding-bottom: 7px;
+  }
+
+  &.disabled {
+    background: $light-gray;
+
+    > .content {
+      color: $dark-gray;
+    }
+  }
+
+  &.paid-disabled {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 229, 184, 0.5),
+      rgba(255, 229, 184, 0.5) 10px,
+      #fff 10px,
+      #fff 20px
+    );
+  }
+
+  &.purged-disabled {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255, 201, 184, 0.5),
+      rgba(255, 201, 184, 0.5) 10px,
+      #fff 10px,
+      #fff 20px
+    );
+  }
+
+  legend {
+    // XXX: Copy styles from Semantic UI
+    margin: 0 0 0.28571429rem 0;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 0.92857143em;
+    font-weight: bold;
+    text-transform: none;
+  }
+
+  :global(.required) > fieldset > legend::after {
+    // XXX: Copy styles from Semantic UI
+    display: inline-block;
+    vertical-align: top;
+    margin: -0.2em 0 0 0.2em;
+    content: '*';
+    color: #c00;
+  }
+
+  > .content {
+    flex-grow: 1;
+
+    :global(.field.disabled) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    // Prevent stacking opacity on SUI Buttons
+    :global(.field.disabled) button:global(.button.disabled) {
+      opacity: 1 !important;
+    }
+
+    .label {
+      max-width: var(--max-form-item-width);
+      overflow-wrap: anywhere;
+    }
+
+    .field {
+      margin-bottom: 3px;
+
+      .price-tag {
+        float: unset;
+        margin-left: 2em;
+      }
+
+      .places-left {
+        margin-left: 1em;
+      }
+
+      .greyed {
+        color: rgba(0, 0, 0, 0.2);
+      }
+
+      .number-field {
+        display: flex;
+        align-items: center;
+      }
+
+      .date-field {
+        margin-bottom: 0;
+      }
+
+      .file-field :global(.ui.segment) {
+        margin-top: 0;
+      }
+
+      .accommodation-field {
+        .date-picker {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-top: 10px;
+        }
+      }
+
+      .accompanyingpersons-field {
+        display: flex;
+        flex-direction: column;
+
+        ul {
+          max-width: var(--max-form-item-width);
+          padding-left: 1.5rem;
+
+          li {
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem;
+            margin-bottom: 0.25rem;
+
+            &:hover > .actions {
+              visibility: visible;
+            }
+
+            &:not(:last-child) {
+              border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+            }
+
+            .light {
+              color: $dark-gray;
+            }
+
+            span {
+              max-width: 93%;
+            }
+
+            .actions {
+              display: flex;
+              width: 7%;
+              justify-content: space-between;
+              align-items: center;
+              visibility: hidden;
+            }
+          }
+        }
+
+        .summary {
+          padding-left: 1rem;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      label:hover::before {
+        border-color: #d4d4d5;
+      }
+
+      [data-input-type='country-dropdown'] {
+        max-width: var(--max-form-item-width);
+        width: 100%;
+      }
+
+      .single-choice-dropdown {
+        align-items: center;
+        margin-bottom: 0;
+        gap: 0.5em;
+        justify-content: flex-start;
+        padding: 0 0.5em;
+
+        :global(.field):first-child {
+          width: 100%;
+          max-width: var(--max-form-item-width);
+          padding: 0;
+
+          ind-combo-box,
+          ind-select {
+            width: 100%;
+          }
+        }
+
+        .extra-slots {
+          display: flex;
+          align-items: center;
+
+          ind-combo-box {
+            max-width: 5em;
+          }
+        }
+
+        .dropdown-text {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .caption {
+            flex-grow: 1;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 27em;
+          }
+
+          .labels {
+            margin-top: -11px;
+            margin-bottom: -11px;
+            margin-left: 0.5em;
+            white-space: nowrap;
+
+            :global(.label) {
+              white-space: nowrap;
+            }
+          }
+        }
+
+        [aria-disabled] .labels {
+          opacity: 0.6;
+        }
+
+        :global(.dropdown .divider.text) {
+          width: 100%;
+        }
+
+        :global(.dropdown.icon) {
+          top: 50%;
+          transform: translateY(-25%);
+        }
+
+        .single-choice-radio-group {
+          margin-right: 2em;
+          margin-bottom: 0;
+        }
+      }
+
+      textarea,
+      input[type='email'],
+      input[type='file'],
+      input[type='text'] {
+        max-width: var(--max-form-item-width);
+      }
+
+      input[type='tel'],
+      input[type='number'] {
+        max-width: 250px;
+      }
+    }
+
+    .field legend {
+      display: inline-block;
+    }
+
+    .field fieldset:disabled legend {
+      opacity: 0.8;
+    }
+
+    > .description {
+      max-width: var(--max-form-item-width);
+      padding-left: 2px;
+      text-align: justify;
+      font-style: italic;
+      font-size: 0.9em;
+      color: $dark-gray;
+      overflow-wrap: break-word;
+    }
+  }
+
+  > .actions {
+    visibility: hidden;
+
+    a + a {
+      margin-left: 3px;
+    }
+  }
+
+  &.editable {
+    .sortable-handle {
+      color: $dark-gray;
+      margin-left: -10px;
+      width: 25px;
+
+      &::before {
+        position: relative;
+        left: 8px;
+      }
+    }
+
+    &.disabled .sortable-handle {
+      pointer-events: none;
+    }
+
+    &:not(.disabled):hover .sortable-handle {
+      @include icon-before('icon-drag-indicator');
+      cursor: grab;
+    }
+
+    &:not(.disabled):hover .sortable-handle:active {
+      cursor: grabbing;
+    }
+
+    &:hover > .actions {
+      visibility: visible;
+    }
+  }
+
+  :global(.DateRangePickerInput__disabled) {
+    background: inherit;
+  }
+
+  :global(.DateRangePickerInput_calendarIcon)[disabled] {
+    visibility: hidden;
+  }
+
+  :global(.SingleDatePickerInput) {
+    border-radius: 4px;
+
+    & > :global(.DateInput) {
+      max-width: 130px;
+    }
+
+    & > button {
+      margin-left: 5px;
+    }
+  }
+
+  :global(.rc-time-picker) {
+    max-width: 110px;
+  }
+
+  :global(.rc-time-picker-input) {
+    height: inherit;
+  }
+}
+
+// TODO: clean up the old CSS; we may no longer need this afterwards.
+// make sure to test this with the lockUI dimmer - the content must not
+// jump around when it gets activated
+:global(.regform-section-list) > :first-child :global(.regform-section) {
+  margin-top: 0;
+}
+
+:global(.regform-section > .i-box-header) {
+  align-items: baseline;
+  overflow: visible;
+
+  .header-wrapper {
+    flex-grow: 1;
+  }
+
+  .section-sortable-handle {
+    font-size: 1.2em;
+    flex-basis: 20px;
+    align-self: flex-start;
+  }
+
+  &:hover .section-sortable-handle {
+    @include icon-before('icon-drag-indicator');
+    cursor: grab;
+  }
+
+  &:hover .section-sortable-handle:active {
+    cursor: grabbing;
+  }
+}
+
+:global(.regform-section).manager-only > :global(.i-box-header) {
+  background-color: lighten($light-yellow, 5%);
+}
+
+.section-actions {
+  align-self: flex-start;
+  white-space: nowrap;
+
+  a {
+    font-size: 1.2em;
+  }
+
+  a + a,
+  a + div {
+    margin-left: 5px;
+  }
+}
+
+.dropdown-menu {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+
+  & > div:first-child {
+    border-right: 1px solid rgba(34, 36, 38, 0.15);
+  }
+}
+
+.dropdown-item {
+  cursor: pointer;
+  line-height: 1em;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 11px 16px;
+  font-size: 1rem;
+  font-weight: normal;
+
+  i {
+    padding-right: 10px;
+
+    &::before {
+      cursor: pointer;
+    }
+  }
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.95);
+}
+
+// FIXME: Semantic UI hack
+:global(.ui.form) :global(.field) fieldset:disabled {
+  pointer-events: auto;
+  opacity: 0.8;
+}

@@ -1,0 +1,771 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+/*
+Important: When adding new icons, read the guide below.
+Do not ediy any specific icons in here manually, the rules are generated
+using the `bin/maintenance/generate_icons.py` script.
+*/
+
+// stylelint-disable rule-empty-line-before
+
+@use 'base/palette' as *;
+
+@font-face {
+  font-family: 'icomoon-ultimate';
+  src: url('static:fonts/icomoon/icomoon.svg#icomoon-ultimate') format('svg'),
+    url('static:fonts/icomoon/icomoon.woff') format('woff'),
+    url('static:fonts/icomoon/icomoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]::before {
+  font-family: 'icomoon-ultimate';
+  content: attr(data-icon);
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+[class^='icon-']::before,
+[class*=' icon-']::before,
+%icon {
+  font-family: 'icomoon-ultimate';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+i[class^='icon-']::before {
+  cursor: default;
+}
+
+.inactive[class^='icon-']::before,
+.inactive[class*=' icon-']::before {
+  opacity: 0.15;
+}
+
+/* How to add icons
+ *
+ *  1. Login into icomoon app https://icomoon.io/app/
+ *  2. Remove any existing project (Top-left hamburger icon, "Manage projects", "Remove" button)
+ *  3. Import "selection.json" from Indico repository (Top-left hamburger icon, "Import project",
+ *     choose 'indico/web/static/fonts/icomoon/selection.json'
+ *  4. Load the project (it should be named "Untitled Project")
+ *  5. Deselect all icons (Top-left hamburger icon, "Clear selection")
+ *  6. Add the IcoMoon Ultimate pack (Click on "Library" button then on "Add")
+ *  7. Search for the icon you want to add using the search box
+ *  8. Select the icons to add with the selection tool
+ *  9. Add the new icons to our set (Click the hamburger icon to the right of our set that
+ *     should be displayed as "icomoon" and select "Move selection here")
+ * 10. Clear the search box
+ * 11. Remove all icons sets except ours (Click the hamburger icon to the right of the set to remove
+ *     and choose "Remove set")
+ * 12. Reorder the icons in alphabetical order:
+ *      - Click the hamburger icon to the right of our project
+ *      - Choose "Select all".
+ *      - Click that hamburger icon again and choose "Rearrange icons".
+ *      - Choose "Order by name" and "Rearrange"
+ * 13. Click on the "Generate font" tab at the bottom of the screen
+ * 14. Click on "Download" at the bottom right of the screen
+ * 15. Copy files:
+ *      - icomoon.zip/fonts/icommon.{svg,ttf,woff} to indico/web/static/fonts/icomoon/
+ *      - icomoon.zip/selection.json to indico/web/static/fonts/icomoon/
+ * 16. Run the update script: `./bin/maintenance/generate_icons.py`
+ */
+
+// BEGIN GENERATED ICON RULES
+.icon-agreement::before,
+%icon-agreement {
+  content: '\e900';
+}
+.icon-alarm::before,
+%icon-alarm {
+  content: '\e901';
+}
+.icon-arrow-down::before,
+%icon-arrow-down {
+  content: '\e902';
+}
+.icon-arrow-left::before,
+%icon-arrow-left {
+  content: '\e903';
+}
+.icon-arrow-right-sparse::before,
+%icon-arrow-right-sparse {
+  content: '\e904';
+}
+.icon-arrow-up::before,
+%icon-arrow-up {
+  content: '\e905';
+}
+.icon-arrows-vert::before,
+%icon-arrows-vert {
+  content: '\e906';
+}
+.icon-attachment::before,
+%icon-attachment {
+  content: '\e907';
+}
+.icon-bell::before,
+%icon-bell {
+  content: '\e908';
+}
+.icon-bold::before,
+%icon-bold {
+  content: '\e909';
+}
+.icon-book::before,
+%icon-book {
+  content: '\e90a';
+}
+.icon-bookmark::before,
+%icon-bookmark {
+  content: '\e90b';
+}
+.icon-broadcast::before,
+%icon-broadcast {
+  content: '\e90c';
+}
+.icon-bubble-quote::before,
+%icon-bubble-quote {
+  content: '\e90d';
+}
+.icon-bullhorn::before,
+%icon-bullhorn {
+  content: '\e90e';
+}
+.icon-calendar::before,
+%icon-calendar {
+  content: '\e90f';
+}
+.icon-calendar-day::before,
+%icon-calendar-day {
+  content: '\ea65';
+}
+.icon-camera::before,
+%icon-camera {
+  content: '\e910';
+}
+.icon-chart::before,
+%icon-chart {
+  content: '\e911';
+}
+.icon-checkbox-checked::before,
+%icon-checkbox-checked {
+  content: '\e912';
+}
+.icon-checkbox-unchecked::before,
+%icon-checkbox-unchecked {
+  content: '\e913';
+}
+.icon-checkmark::before,
+%icon-checkmark {
+  content: '\e914';
+}
+.icon-circle-small::before,
+%icon-circle-small {
+  content: '\e915';
+}
+.icon-clipboard::before,
+%icon-clipboard {
+  content: '\e916';
+}
+.icon-close::before,
+%icon-close {
+  content: '\e917';
+}
+.icon-cloud2::before,
+%icon-cloud2 {
+  content: '\e918';
+}
+.icon-code::before,
+%icon-code {
+  content: '\e919';
+}
+.icon-coins::before,
+%icon-coins {
+  content: '\e91a';
+}
+.icon-collapse::before,
+%icon-collapse {
+  content: '\e91b';
+}
+.icon-compass2::before,
+%icon-compass2 {
+  content: '\e91c';
+}
+.icon-copy::before,
+%icon-copy {
+  content: '\e91d';
+}
+.icon-copy1::before,
+%icon-copy1 {
+  content: '\e91e';
+}
+.icon-cross::before,
+%icon-cross {
+  content: '\e91f';
+}
+.icon-disable::before,
+%icon-disable {
+  content: '\e920';
+}
+.icon-drag-indicator::before,
+%icon-drag-indicator {
+  content: '\e99c';
+}
+.icon-dropmenu::before,
+%icon-dropmenu {
+  content: '\e921';
+}
+.icon-earth::before,
+%icon-earth {
+  content: '\e922';
+}
+.icon-edit::before,
+%icon-edit {
+  content: '\e923';
+}
+.icon-enlarge::before,
+%icon-enlarge {
+  content: '\e924';
+}
+.icon-enter::before,
+%icon-enter {
+  content: '\e925';
+}
+.icon-equalizer::before,
+%icon-equalizer {
+  content: '\e926';
+}
+.icon-exit::before,
+%icon-exit {
+  content: '\e927';
+}
+.icon-expand::before,
+%icon-expand {
+  content: '\e928';
+}
+.icon-eye::before,
+%icon-eye {
+  content: '\e929';
+}
+.icon-eye-blocked::before,
+%icon-eye-blocked {
+  content: '\e92a';
+}
+.icon-file::before,
+%icon-file {
+  content: '\e92b';
+}
+.icon-file-check::before,
+%icon-file-check {
+  content: '\e92c';
+}
+.icon-file-content::before,
+%icon-file-content {
+  content: '\e92d';
+}
+.icon-file-css::before,
+%icon-file-css {
+  content: '\e92e';
+}
+.icon-file-download::before,
+%icon-file-download {
+  content: '\e92f';
+}
+.icon-file-excel::before,
+%icon-file-excel {
+  content: '\e930';
+}
+.icon-file-eye::before,
+%icon-file-eye {
+  content: '\e931';
+}
+.icon-file-filled::before,
+%icon-file-filled {
+  content: '\e932';
+}
+.icon-file-image::before,
+%icon-file-image {
+  content: '\e933';
+}
+.icon-file-music::before,
+%icon-file-music {
+  content: '\e934';
+}
+.icon-file-openoffice::before,
+%icon-file-openoffice {
+  content: '\e935';
+}
+.icon-file-pdf::before,
+%icon-file-pdf {
+  content: '\e936';
+}
+.icon-file-play::before,
+%icon-file-play {
+  content: '\e937';
+}
+.icon-file-presentation::before,
+%icon-file-presentation {
+  content: '\e938';
+}
+.icon-file-spreadsheet::before,
+%icon-file-spreadsheet {
+  content: '\e939';
+}
+.icon-file-text::before,
+%icon-file-text {
+  content: '\e93a';
+}
+.icon-file-video::before,
+%icon-file-video {
+  content: '\e93b';
+}
+.icon-file-word::before,
+%icon-file-word {
+  content: '\e93c';
+}
+.icon-file-xml::before,
+%icon-file-xml {
+  content: '\e93d';
+}
+.icon-file-zip::before,
+%icon-file-zip {
+  content: '\e93e';
+}
+.icon-filter::before,
+%icon-filter {
+  content: '\e93f';
+}
+.icon-first::before,
+%icon-first {
+  content: '\e940';
+}
+.icon-floppy::before,
+%icon-floppy {
+  content: '\e941';
+}
+.icon-folder::before,
+%icon-folder {
+  content: '\e942';
+}
+.icon-folder-open::before,
+%icon-folder-open {
+  content: '\e943';
+}
+.icon-folder-plus::before,
+%icon-folder-plus {
+  content: '\e944';
+}
+.icon-font-size::before,
+%icon-font-size {
+  content: '\e945';
+}
+.icon-grid::before,
+%icon-grid {
+  content: '\e946';
+}
+.icon-grid2::before,
+%icon-grid2 {
+  content: '\e947';
+}
+.icon-hammer::before,
+%icon-hammer {
+  content: '\e948';
+}
+.icon-handle::before,
+%icon-handle {
+  content: '\e949';
+}
+.icon-home::before,
+%icon-home {
+  content: '\e94a';
+}
+.icon-hour-glass2::before,
+%icon-hour-glass2 {
+  content: '\e94b';
+}
+.icon-id-badge::before,
+%icon-id-badge {
+  content: '\e99d';
+}
+.icon-image::before,
+%icon-image {
+  content: '\e94c';
+}
+.icon-import::before,
+%icon-import {
+  content: '\e94d';
+}
+.icon-info::before,
+%icon-info {
+  content: '\e94e';
+}
+.icon-italic::before,
+%icon-italic {
+  content: '\e94f';
+}
+.icon-key::before,
+%icon-key {
+  content: '\e950';
+}
+.icon-key-a::before,
+%icon-key-a {
+  content: '\e951';
+}
+.icon-lamp::before,
+%icon-lamp {
+  content: '\e952';
+}
+.icon-lan::before,
+%icon-lan {
+  content: '\e953';
+}
+.icon-last::before,
+%icon-last {
+  content: '\e954';
+}
+.icon-layout::before,
+%icon-layout {
+  content: '\e955';
+}
+.icon-link::before,
+%icon-link {
+  content: '\e956';
+}
+.icon-list::before,
+%icon-list {
+  content: '\e957';
+}
+.icon-location::before,
+%icon-location {
+  content: '\e958';
+}
+.icon-lock::before,
+%icon-lock {
+  content: '\e959';
+}
+.icon-lock-center::before,
+%icon-lock-center {
+  content: '\e95a';
+}
+.icon-loop::before,
+%icon-loop {
+  content: '\e95b';
+}
+.icon-mail::before,
+%icon-mail {
+  content: '\e95c';
+}
+.icon-medal::before,
+%icon-medal {
+  content: '\e95d';
+}
+.icon-mic::before,
+%icon-mic {
+  content: '\e95e';
+}
+.icon-mobile::before,
+%icon-mobile {
+  content: '\e95f';
+}
+.icon-move::before,
+%icon-move {
+  content: '\e960';
+}
+.icon-new::before,
+%icon-new {
+  content: '\e961';
+}
+.icon-next::before,
+%icon-next {
+  content: '\e962';
+}
+.icon-no-camera::before,
+%icon-no-camera {
+  content: '\e963';
+}
+.icon-numbered-list::before,
+%icon-numbered-list {
+  content: '\e964';
+}
+.icon-package-download::before,
+%icon-package-download {
+  content: '\e965';
+}
+.icon-pagebreak::before,
+%icon-pagebreak {
+  content: '\e966';
+}
+.icon-palette::before,
+%icon-palette {
+  content: '\e967';
+}
+.icon-phone::before,
+%icon-phone {
+  content: '\e968';
+}
+.icon-play::before,
+%icon-play {
+  content: '\e969';
+}
+.icon-plus::before,
+%icon-plus {
+  content: '\e96a';
+}
+.icon-prev::before,
+%icon-prev {
+  content: '\e96b';
+}
+.icon-price-tag::before,
+%icon-price-tag {
+  content: '\e96c';
+}
+.icon-printer::before,
+%icon-printer {
+  content: '\e96d';
+}
+.icon-projector::before,
+%icon-projector {
+  content: '\e96e';
+}
+.icon-puzzle::before,
+%icon-puzzle {
+  content: '\e96f';
+}
+.icon-qrcode::before,
+%icon-qrcode {
+  content: '\e970';
+}
+.icon-question::before,
+%icon-question {
+  content: '\e971';
+}
+.icon-quill::before,
+%icon-quill {
+  content: '\e972';
+}
+.icon-redo::before,
+%icon-redo {
+  content: '\e973';
+}
+.icon-remove::before,
+%icon-remove {
+  content: '\e974';
+}
+.icon-rulers::before,
+%icon-rulers {
+  content: '\e975';
+}
+.icon-search::before,
+%icon-search {
+  content: '\e976';
+}
+.icon-settings::before,
+%icon-settings {
+  content: '\e977';
+}
+.icon-seven-segment9::before,
+%icon-seven-segment9 {
+  content: '\e978';
+}
+.icon-shield::before,
+%icon-shield {
+  content: '\e979';
+}
+.icon-shrink::before,
+%icon-shrink {
+  content: '\e97a';
+}
+.icon-sort::before,
+%icon-sort {
+  content: '\e97b';
+}
+.icon-sort-alpha-asc::before,
+%icon-sort-alpha-asc {
+  content: '\e97c';
+}
+.icon-sort-alpha-desc::before,
+%icon-sort-alpha-desc {
+  content: '\e97d';
+}
+.icon-split::before,
+%icon-split {
+  content: '\e97e';
+}
+.icon-stack::before,
+%icon-stack {
+  content: '\e97f';
+}
+.icon-stack-minus::before,
+%icon-stack-minus {
+  content: '\e980';
+}
+.icon-stack-plus::before,
+%icon-stack-plus {
+  content: '\e981';
+}
+.icon-stack-text::before,
+%icon-stack-text {
+  content: '\e982';
+}
+.icon-star::before,
+%icon-star {
+  content: '\e983';
+}
+.icon-star-empty::before,
+%icon-star-empty {
+  content: '\e984';
+}
+.icon-stop::before,
+%icon-stop {
+  content: '\e985';
+}
+.icon-switchoff::before,
+%icon-switchoff {
+  content: '\e986';
+}
+.icon-switchon::before,
+%icon-switchon {
+  content: '\e987';
+}
+.icon-tag::before,
+%icon-tag {
+  content: '\e988';
+}
+.icon-text-color::before,
+%icon-text-color {
+  content: '\e989';
+}
+.icon-textarea::before,
+%icon-textarea {
+  content: '\e98a';
+}
+.icon-textfield::before,
+%icon-textfield {
+  content: '\e98b';
+}
+.icon-ticket::before,
+%icon-ticket {
+  content: '\e98c';
+}
+.icon-tilde::before,
+%icon-tilde {
+  content: '\e98d';
+}
+.icon-time::before,
+%icon-time {
+  content: '\e98e';
+}
+.icon-transmission::before,
+%icon-transmission {
+  content: '\e98f';
+}
+.icon-type::before,
+%icon-type {
+  content: '\e990';
+}
+.icon-undo::before,
+%icon-undo {
+  content: '\e991';
+}
+.icon-unlocked::before,
+%icon-unlocked {
+  content: '\e992';
+}
+.icon-upload::before,
+%icon-upload {
+  content: '\e993';
+}
+.icon-user::before,
+%icon-user {
+  content: '\e994';
+}
+.icon-user-block::before,
+%icon-user-block {
+  content: '\e995';
+}
+.icon-user-chairperson::before,
+%icon-user-chairperson {
+  content: '\e996';
+}
+.icon-user-check::before,
+%icon-user-check {
+  content: '\e997';
+}
+.icon-user-reading::before,
+%icon-user-reading {
+  content: '\e998';
+}
+.icon-users::before,
+%icon-users {
+  content: '\e999';
+}
+.icon-warning::before,
+%icon-warning {
+  content: '\e99a';
+}
+.icon-wrench::before,
+%icon-wrench {
+  content: '\e99b';
+}
+// END GENERATED ICON RULES
+
+/* animated spinner icon */
+.icon-spinner::before {
+  content: '';
+  display: inline-block;
+  min-width: 1.2em;
+  min-height: 1.2em;
+  height: 100%;
+  background-image: url('static:images/loading.gif');
+  background-repeat: no-repeat;
+  background-size: 1.2em 1.2em;
+  vertical-align: middle !important;
+  opacity: 0.6; // full opacity is too dark compared to the text in a button
+}
+
+/* Custom "empty" icon to have a space equivalent to an icon */
+.icon-none::before {
+  content: '\2001';
+}
+
+.disabled .icon-spinner::before {
+  opacity: 0.4; // "disabled feel" for the bg image with the spinner
+}
+
+/* Customized icons for specific purposes */
+.icon-protection-public::before {
+  @extend %icon-unlocked;
+  color: $green;
+}
+
+.icon-protection-self::before {
+  @extend %icon-lock;
+  color: $red;
+}
+
+.icon-unlisted-event::before {
+  @extend %icon-eye-blocked;
+  color: $red;
+}

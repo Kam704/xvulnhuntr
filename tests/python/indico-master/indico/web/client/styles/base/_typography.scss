@@ -1,0 +1,60 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use './palette' as *;
+
+@mixin font-family-body {
+  font-family: 'Liberation Sans', sans-serif;
+}
+
+@mixin font-family-modern-body {
+  font-family: 'Roboto', sans-serif;
+}
+
+@mixin font-family-sui {
+  font-family: 'Muli', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+@mixin font-family-title {
+  font-family: 'Roboto', sans-serif;
+}
+
+@mixin font-family-title-light {
+  font-family: 'Roboto Light', sans-serif;
+}
+
+@mixin font-family-description {
+  font-family: 'Liberation Serif', serif;
+}
+
+@mixin font-family-monospace {
+  font-family: 'Liberation Mono', monospace;
+}
+
+@mixin font-family-serif {
+  font-family: 'Liberation Serif', serif;
+}
+
+@mixin font-family-sans {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+}
+
+@mixin font-family-form {
+  font-family: 'Liberation Sans', sans-serif;
+}
+
+@mixin font-family-logo {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+@mixin font-size-body {
+  font-size: 13px;
+}
+
+@mixin text-superfluous {
+  color: $gray;
+}

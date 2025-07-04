@@ -1,0 +1,69 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+.ui.form input[type='text'].DateInput_input {
+  border: none;
+  text-align: center;
+}
+
+.DateInput_input[disabled] {
+  font-style: normal;
+}
+
+.ui.form input[type='text'].DateInput_input__small {
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+.CalendarMonth_caption {
+  padding-top: 18px !important;
+  padding-bottom: 42px !important;
+}
+
+.DateRangePicker_picker,
+.SingleDatePicker_picker {
+  // ensure date pickers don't have SUI checkbox switches (z-index 3) in front of them
+  z-index: 4 !important;
+  line-height: normal;
+}
+
+.DateRangePicker_picker.DateRangePicker_picker__fullScreenPortal,
+.SingleDatePicker_picker.SingleDatePicker_picker__fullScreenPortal {
+  z-index: 1001 !important;
+}
+
+.datepicker-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.datepicker-select {
+  padding: 0 !important;
+  height: 33px !important;
+  width: auto !important;
+}
+
+ind-date-grid button {
+  /* Workaround for design system's _utils.scss not applying in all cases */
+  font: inherit;
+  font-size: 1.143rem;
+}
+
+ind-calendar .month-year {
+  min-width: 11em;
+}
+
+ind-calendar .month-year select {
+  font: inherit;
+}
+
+ind-calendar .calendars {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+}

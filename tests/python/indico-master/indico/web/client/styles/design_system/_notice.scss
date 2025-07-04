@@ -1,0 +1,16 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use './variables';
+
+%notice {
+  padding: var(--container-padding);
+
+  background: var(--message-important-surface-color);
+  color: var(--message-important-text-color);
+  font-size: calc(var(--text-size-global-adjust) * var(--text-size-rel-l));
+}

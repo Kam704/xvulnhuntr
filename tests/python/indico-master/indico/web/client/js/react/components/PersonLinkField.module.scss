@@ -1,0 +1,106 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@use 'base/palette' as *;
+
+.person-link-field {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.person-link-field .segment {
+  max-height: 40vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-padding: 4px;
+}
+
+.person-link {
+  display: flex;
+  padding: 1px 0;
+  scroll-snap-align: start;
+}
+
+.person-link:first-child {
+  scroll-margin-top: 1em;
+}
+
+.person-link .handle {
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.principal {
+  flex: 1;
+}
+
+.button {
+  cursor: pointer;
+  opacity: 0.5 !important;
+
+  &:hover {
+    opacity: 1 !important;
+  }
+
+  &.delete {
+    color: red;
+  }
+
+  &.edit {
+    font-size: 1.2em !important;
+  }
+}
+
+.titled-rule {
+  display: flex;
+  align-items: center;
+  color: #adadad;
+  font-size: 0.9em;
+  line-height: 1.2;
+}
+
+.titled-rule::after {
+  content: '';
+  flex: 1;
+  background-color: #d4d4d5;
+  height: 1px;
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+:global(.ui.label .icon).label-icon {
+  margin: 0;
+}
+
+.roles {
+  display: flex;
+  margin: 0 0.6em;
+  flex-shrink: 0;
+}
+
+.roles :global(.ui.label) {
+  margin: 0;
+}
+
+.roles :global(.ui.label):not(:first-child) {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.roles :global(.ui.label):not(:last-child) {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.icon {
+  width: 32px !important;
+}

@@ -1,0 +1,22 @@
+// This file is part of Indico.
+// Copyright (C) 2002 - 2025 CERN
+//
+// Indico is free software; you can redistribute it and/or
+// modify it under the terms of the MIT License; see the
+// LICENSE file for more details.
+
+@forward 'base/palette';
+@forward 'base/defaults';
+
+@forward 'base/animation';
+@forward 'base/borders';
+@forward 'base/flex';
+@forward 'base/indicators';
+@forward 'base/layout';
+@forward 'base/pages';
+@forward 'base/reset';
+@forward 'base/theme';
+@forward 'base/typography';
+@forward 'base/typography_elements'; // css rules that are not just mixins extracted from typography
+@forward 'base/utilities';
+@forward 'base/sui_fixes';
