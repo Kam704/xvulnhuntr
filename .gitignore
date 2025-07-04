@@ -166,3 +166,41 @@ cython_debug/
 # repos
 repos/
 .vscode/launch.json
+
+# dot net
+# Ignore Visual Studio user-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore build output directories regardless of location in repo
+**/bin/
+**/obj/
+**/out/
+
+# Ignore NuGet packages
+**/packages/
+**/project.lock.json
+**/project.assets.json
+!**/nuget.config
+!**/packages.config
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore Rider IDE files
+.idea/
+*.sln.iml
+
+# Ignore .NET Core dependencies
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.log*
+
+# Ignore Mac/Linux specific files
+.DS_Store
+*.swp

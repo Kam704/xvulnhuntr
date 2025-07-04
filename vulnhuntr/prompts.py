@@ -304,6 +304,7 @@ Analyze the code in <file_code> tags for potential remotely exploitable vulnerab
 4. Highlight areas where more context is needed to complete the analysis.
 
 Be generous and thorough in identifying potential vulnerabilities as you'll analyze more code in subsequent steps so if there's just a possibility of a vulnerability, include it the <vulnerability_types> tags.
+If there is none, then use an empty array. Response in json.
 """
 
 README_SUMMARY_PROMPT_TEMPLATE = """
@@ -314,7 +315,7 @@ Provide a very concise summary of the README.md content in <readme_content></rea
 
 Please keep the summary brief and to the point, highlighting only the most relevant networking-related functionality as it relates to attack surface.
 
-Output in <summary></summary> XML tags.
+Output in <summary></summary> XML tags. Response in json.
 """
 
 GUIDELINES_TEMPLATE = """Reporting Guidelines:
@@ -369,7 +370,7 @@ ANALYSIS_APPROACH_TEMPLATE = """Analysis Instructions:
    - Double-check that your JSON response is well-formed and complete."""
 
 SYS_PROMPT_TEMPLATE = """
-You are the world's foremost expert in Python security analysis, renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities including but not limited to:
+renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities including but not limited to:
 
 1. Local File Inclusion (LFI)
 2. Remote Code Execution (RCE)

@@ -1,8 +1,11 @@
-import jedi
+import logging
 import pathlib
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
+import jedi
 from jedi.api.classes import Name
 
+logger = logging.getLogger("xvulnhuntr")
 
 class SymbolExtractor:
     def __init__(self, repo_path: str | pathlib.Path) -> None:
@@ -33,7 +36,7 @@ class SymbolExtractor:
         symbol_parts = symbol_name.split('.')
         matching_files = [file for file in filtered_files if self._search_string_in_file(file, code_line)]
         if len(matching_files) == 0:
-            print(f'Code line not found: {code_line}')
+            logger.info(f'Code line not found: {code_line}')
             scripts = []
         else:
             scripts = [jedi.Script(path=file, project=self.project) for file in matching_files]
@@ -196,7 +199,7 @@ class SymbolExtractor:
                         match = self._create_match_obj(inf, symbol_name)
                         return match
 
-        print('No matches found for symbol:', symbol_name)
+        logger.info('No matches found for symbol:', symbol_name)
         return
     
     def _is_exact_match(self, name: Name, parts: List[str]) -> bool:

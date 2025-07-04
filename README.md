@@ -1,39 +1,155 @@
+# xvulnhuntr
+
 <div align="center">
 
-  <img width="250" src="https://github.com/user-attachments/assets/d1153ab4-df29-4955-ad49-1be7fad18bb3" alt="Vulnhuntr Logo">
-
-A tool to identify remotely exploitable vulnerabilities using LLMs and static code analysis.
-
-**World's first autonomous AI-discovered 0day vulnerabilities**
+  <img width="250" src="xvulnhuntr.png" alt="xvulnhuntr Logo">
 
 </div>
 
-## Description
-Vulnhuntr leverages the power of LLMs to automatically create and analyze entire code call chains starting from remote user input and ending at server output for detection of complex, multi-step, security-bypassing vulnerabilities that go far beyond what traditional static code analysis tools are capable of performing. See all the details including the Vulnhuntr output for all the 0-days here: [Protect AI Vulnhuntr Blog](https://protectai.com/threat-research/vulnhuntr-first-0-day-vulnerabilities)
 
-## Vulnerabilities Found
+xvulnhuntr is a fork of [vulnhuntr](https://github.com/protectai/vulnhuntr).
+
+The `x` stands for *extended*, with the following major contributions:
+- Additional programming languages:
+  - C# - see [README](./codeExtractor/c%23/README.md)
+  - Java - see [README](./codeExtractor/java/README.md)
+  - Go - see [README](./codeExtractor/go/README.md)
+- test suite which allows local development with:
+  - reproducibility
+  - no API latency
+  - no API costs
+
+## Description
+
+xvlnhuntr is a tool to find vulnerabilities in source code. The core idea is to make the LLM request the context code in a multi-step process. In this way, it is possible to analyze large repositories without requiring huge context windows.
+
+See identified vulnerabilities at [Protect AI Vulnhuntr Blog](https://protectai.com/threat-research/vulnhuntr-first-0-day-vulnerabilities)
+
+### Extend to other languages
+
+xvulnhuntr supports arbitrary typed languages in a simple way: when the LLM asks for the code block for a function or class, an external program called `codeExtractor` is invoked to parse the syntax tree and retrieve the corresponding block.
+
+See the [c#](./codeExtractor/c%23/) and [java](./codeExtractor/java/) versions of codeExtractor as a reference.
+
+## Installation
+
+> [!IMPORTANT]
+> For python targets xvulnhuntr strictly requires Python 3.10 because of a number of bugs in Jedi which it uses to parse Python code. It will not work reliably if installed with any other versions of Python.
+
+### Miniconda & Poetry (recommended)
+
+Install Miniconda - [Download](https://www.anaconda.com/download/success#miniconda)
+
+Create and activate an environment with python 3.10
+```
+conda create -n v-xvulnhuntr python=3.10
+conda activate v-xvulnhuntr
+```
+
+```bash
+git clone https://github.com/compasssecurity/xvulnhuntr
+cd xvulnhuntr
+conda install poetry
+poetry lock # update existing poetry.lock
+poetry install
+```
+
+### pipx
+```bash
+pipx install git+https://github.com/compasssecurity/xvulnhuntr.git --python python3.10
+```
+
+Note that it is up to you how to install python3.10 (e.g. via pyenv)
+
+### Docker (python only)
+
+```bash
+docker build -t xvulnhuntr https://github.com/compasssecurity/xvulnhuntr.git#main
+```
+
+Python 3.10 is specified in the Dockerfile with `FROM python:3.10-bookworm`
+
+```
+docker run --rm -e ANTHROPIC_API_KEY=sk-1234 -v /local/path/to/target/repo:/repo xvulnhuntr:latest -r /repo -a repo-subfolder/target-file.py -l PYTHON
+```
+
+> [!IMPORTANT]
+> Docker can be used as a convenient way to use Python 3.10 however, when analyzing C#, Java or Go you would have to install dot net, java and go within the docker container, which is possible but imho an overkill.
+
+
+## Usage
+
+This tool is designed to analyze a repository for potential remotely exploitable vulnerabilities. The tool requires an API key and the local path to a repository. You may also optionally specify a custom endpoint for the LLM service.
+
+```
+usage: xvulnhuntr [-h] [-r ROOT] [-a ANALYZE] [--llm {claude,gpt}] [-l {LanguageType.PYTHON,LanguageType.CSHARP,LanguageType.JAVA,LanguageType.GO}] [-v] [-t] [-p PROXY]
+                 [-c CERTIFICATE] [-w]
+
+Analyze a repository for vulnerabilities. Export your ANTHROPIC_API_KEY/OPENAI_API_KEY before running.
+
+options:
+  -h, --help            show this help message and exit
+
+Main parameters:
+  -r ROOT, --root ROOT  Path to the root directory of the project
+  -a ANALYZE, --analyze ANALYZE
+                        Specific path or file within the project to analyze
+  --llm {claude,gpt}    LLM client to use (default: claude)
+  -l {LanguageType.PYTHON,LanguageType.CSHARP,LanguageType.JAVA,LanguageType.GO}
+                        Programming language. Supported: PYTHON, CSHARP, JAVA, GO
+
+Development parameters:
+  -v, --verbosity       Increase output verbosity (-v, -vv)
+  -t, --test            Run test suite using mock api responses
+  -p PROXY, --proxy PROXY
+                        In the form http://127.0.0.1:8080
+  -c CERTIFICATE, --certificate CERTIFICATE
+                        Path to the proxy CA
+  -w, --write           Write responses to file (can be reused as tests)
+```
+
+
+**Example.** Analyze the entire repository using Claude:
+
+```bash
+export ANTHROPIC_API_KEY="sk-1234"
+xvulnhuntr -r /path/to/target/repo/ -l <LANG>
+```
+
+**Example.** Analyze the entire repository with GPT
+```bash
+export OPENAI_API_KEY="sk-1234"
+xvulnhuntr -r /path/to/target/repo/ --llm gpt -l <LANG> 
+```
 
 > [!TIP]
-> Found a vulnerability using Vulnhuntr? Submit a report to [huntr.com](https://huntr.com) to get $$ and submit a PR to add it to the list below!
+> Claude is recommended. Testing gave better results with it over GPT.
 
-> [!NOTE]
-> This table is just a sample of the vulnerabilities found so far. We will unredact as responsible disclosure periods end.
+**Example.** Analyze the `/path/to/target/repo/server.py` file using GPT-4o. It is also possible to specify a subdirectory instead of a file:
 
-| Repository | Stars | Vulnerabilities |
-| - | - | - |
-| [gpt_academic](https://github.com/binary-husky/gpt_academic) | 67k | [LFI](https://nvd.nist.gov/vuln/detail/CVE-2024-10100), [XSS](https://nvd.nist.gov/vuln/detail/CVE-2024-10101) |
-| [ComfyUI](https://github.com/comfyanonymous/ComfyUI) | 66k | [XSS](https://nvd.nist.gov/vuln/detail/CVE-2024-10099) |
-| [Langflow](https://github.com/langflow-ai/langflow) | 46k | RCE, IDOR |
-| [FastChat](https://github.com/lm-sys/FastChat) | 37k | [SSRF](https://nvd.nist.gov/vuln/detail/CVE-2024-10044) | 
-| [Ragflow](https://github.com/infiniflow/ragflow) | 31k | [RCE](https://nvd.nist.gov/vuln/detail/CVE-2024-10131) |
-| [LLaVA](https://github.com/haotian-liu/LLaVA) | 21k | [SSRF](https://www.cve.org/CVERecord?id=CVE-2024-9309) |
-| [gpt-researcher](https://github.com/assafelovic/gpt-researcher) | 17k | [AFO](https://github.com/assafelovic/gpt-researcher/pull/935) |
-| [Letta](https://github.com/letta-ai/letta) | 14k | [AFO](https://github.com/letta-ai/letta/pull/2067) | 
+```bash
+xvulnhuntr -r /path/to/target/repo/ -a server.cs -l CSHARP 
+```
 
-## Limitations
+> [!CAUTION]
+> Always set spending limits or closely monitor costs with the LLM provider you use.
 
-- Only Python codebases are supported.
-- Can only identify the following vulnerability classes:
+> [!TIP]
+> You can monitor the execution by inspecting the log file, e.g.
+
+```
+tail -f xvulnhuntr.log
+```
+
+## Documentation
+
+<details>
+<summary>Capabilities, Logic Flow, Output </summary>
+
+## Capabilities 
+
+- Python, C#, Java and Go codebases are supported.
+- Builtin prompts for the following vulnerability classes:
   - Local file include (LFI)
   - Arbitrary file overwrite (AFO)
   - Remote code execution (RCE)
@@ -42,88 +158,6 @@ Vulnhuntr leverages the power of LLMs to automatically create and analyze entire
   - Server side request forgery (SSRF)
   - Insecure Direct Object Reference (IDOR)
 
-## Installation
-
-> [!IMPORTANT]
-> Vulnhuntr strictly requires Python 3.10 because of a number of bugs in Jedi which it uses to parse Python code. It will not work reliably if installed with any other versions of Python.
-
-We recommend using [pipx](https://github.com/pypa/pipx) or Docker to easily install and run Vulnhuntr.
-
-Using Docker:
-```bash
-docker build -t vulnhuntr https://github.com/protectai/vulnhuntr.git#main
-```
-
-Using pipx:
-```bash
-pipx install git+https://github.com/protectai/vulnhuntr.git --python python3.10
-```
-
-Alternatively you can install directly from source using poetry:
-```bash
-git clone https://github.com/protectai/vulnhuntr
-cd vulnhuntr && poetry install
-```
-
-## Usage
-
-This tool is designed to analyze a GitHub repository for potential remotely exploitable vulnerabilities. The tool requires an API key and the local path to a GitHub repository. You may also optionally specify a custom endpoint for the LLM service.
-
-> [!CAUTION]
-> Always set spending limits or closely monitor costs with the LLM provider you use. This tool has the potential to rack up hefty bills as it tries to fit as much code in the LLMs context window as possible. 
-
-> [!TIP]
-> We recommend using Claude for the LLM. Through testing we have had better results with it over GPT.
-
-### Command Line Interface
-
-```
-usage: vulnhuntr [-h] -r ROOT [-a ANALYZE] [-l {claude,gpt,ollama}] [-v]
-
-Analyze a GitHub project for vulnerabilities. Export your ANTHROPIC_API_KEY/OPENAI_API_KEY before running.
-
-options:
-  -h, --help            show this help message and exit
-  -r ROOT, --root ROOT  Path to the root directory of the project
-  -a ANALYZE, --analyze ANALYZE
-                        Specific path or file within the project to analyze
-  -l {claude,gpt,ollama}, --llm {claude,gpt,ollama}
-                        LLM client to use (default: claude)
-  -v, --verbosity       Increase output verbosity (-v for INFO, -vv for DEBUG)
-```
-### Examples
-From a pipx install, analyze the entire repository using Claude:
-
-```bash
-export ANTHROPIC_API_KEY="sk-1234"
-vulnhuntr -r /path/to/target/repo/
-```
-
-> [!TIP]
-> We recommend giving Vulnhuntr specific files that handle remote user input and scan them individually.
-
-From a pipx install, analyze the `/path/to/target/repo/server.py` file using GPT-4o. Can also specify a subdirectory instead of a file:
-
-```bash
-export OPENAI_API_KEY="sk-1234"
-vulnhuntr -r /path/to/target/repo/ -a server.py -l gpt 
-```
-
-From a docker installation, run using Claude and a custom endpoint to analyze /local/path/to/target/repo/repo-subfolder/target-file.py:
-
-```bash
-docker run --rm -e ANTHROPIC_API_KEY=sk-1234 -e ANTHROPIC_BASE_URL=https://localhost:1234/api -v /local/path/to/target/repo:/repo vulnhuntr:latest -r /repo -a repo-subfolder/target-file.py
-```
-
-*Experimental*
-
-Ollama is included as an option, however we haven't had success with the open source models structuring their output correctly.
-
-```bash
-export OLLAMA_BASE_URL=http://localhost:11434/api/generate
-export OLLAMA_MODEL=llama3.2
-vulnhuntr -r /path/to/target/repo/ -a server.py -l ollama
-``` 
 
 ## Logic Flow
 ![VulnHuntr logic](https://github.com/user-attachments/assets/7757b053-36ff-425e-ab3d-ab0100c81d49)
@@ -196,13 +230,12 @@ vulnerability_types:
   - RCE
 ----------------------------------------
 ```
-
-## Logging
-
-The tool logs the analysis process and results in a file named `vulhuntr.log`. This file contains detailed information about each step of the analysis, including the initial and secondary assessments.
-
+</details>
 
 ## Authors
+xvulnhuntr fork:
+- Nicolò Fornari [@rationalpsyche](https://bsky.app/profile/rationalpsyche.bsky.social)
 
+vulnhuntr:
 - Dan McInerney: dan@protectai.com, [@DanHMcinerney](https://x.com/DanHMcInerney)
 - Marcello Salvati: marcello@protectai.com, [@byt3bl33d3r](https://x.com/byt3bl33d3r)
