@@ -76,7 +76,7 @@ class BaseRepoOps:
         if path_to_analyze.is_file():
             return [ path_to_analyze ]
         elif path_to_analyze.is_dir():
-            return path_to_analyze.rglob(f"*.{languageExtensions[self.langtype]}")
+            return [ p for p in path_to_analyze.rglob(f"*.{languageExtensions[self.langtype]}") if not p.name.endswith("test.go") ] # exclude go tests
         else:
             raise FileNotFoundError(f"Specified analyze path does not exist: {path_to_analyze}")
 
