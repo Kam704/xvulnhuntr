@@ -307,6 +307,16 @@ Be generous and thorough in identifying potential vulnerabilities as you'll anal
 If there is none, then use an empty array. Response in json.
 """
 
+# used with user supplied custom prompt
+INITIAL_ANALYSIS_PROMPT_TEMPLATE_ALTERNATE = """
+Analyze the code in <file_code> tags for potential remotely exploitable vulnerabilities:
+1. Identify all remote user input entry points (e.g., API endpoints, form submissions) and if you can't find that, request the necessary classes or functions in the <context_code> tags.
+2. Highlight areas where more context is needed to complete the analysis.
+
+Be generous and thorough in identifying potential vulnerabilities as you'll analyze more code in subsequent steps so if there's just a possibility of a vulnerability, include it the <vulnerability_types> tags.
+If there is none, then use an empty array. Response in json.
+"""
+
 README_SUMMARY_PROMPT_TEMPLATE = """
 Provide a very concise summary of the README.md content in <readme_content></readme_content> tags from a security researcher's perspective, focusing specifically on:
 1. The project's main purpose
@@ -368,6 +378,25 @@ ANALYSIS_APPROACH_TEMPLATE = """Analysis Instructions:
 7. Final Review:
    - Confirm your proof of concept (PoC) exploits bypass any security controls.
    - Double-check that your JSON response is well-formed and complete."""
+
+
+SYS_PROMPT_TEMPLATE_ALTERNATE = """
+renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities.
+
+Your analysis must:
+- Meticulously track user input from remote sources to high-risk function sinks.
+- Uncover complex, multi-step vulnerabilities that may bypass multiple security controls.
+- Consider non-obvious attack vectors and chained vulnerabilities.
+- Identify vulnerabilities that could arise from the interaction of multiple code components.
+
+If you don't have the complete code chain from user input to high-risk function, strategically request the necessary context to fill in the gaps in the <context_code> tags of your response.
+
+The project's README summary is provided in <readme_summary> tags. Use this to understand the application's purpose and potential attack surfaces.
+
+Remember, you have many opportunities to respond and request additional context. Use them wisely to build a comprehensive understanding of the application's security posture.
+
+Output your findings in JSON format, conforming to the schema in <response_format> tags.
+"""
 
 SYS_PROMPT_TEMPLATE = """
 renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities including but not limited to:

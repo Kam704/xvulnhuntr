@@ -27,3 +27,4 @@ class VulnType(str, Enum):
     SQLI = "SQLI"
     XSS = "XSS"
     IDOR = "IDOR"
+    CUSTOM = "CUSTOM"

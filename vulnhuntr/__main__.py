@@ -44,6 +44,7 @@ def parse_params():
     
     dev_group = parser.add_argument_group('Development parameters')
     dev_group.add_argument('-v', '--verbosity', action='count', default=0, help='Increase output verbosity (-v, -vv)')
+    dev_group.add_argument('-i', '--inputprompt', type=str, help='Path to a custom user prompt, only this prompt will be executed')
     dev_group.add_argument('-t', '--test', action="store_true", help='Run test suite using mock api responses')
     dev_group.add_argument('-p', '--proxy', type=str, help='In the form http://127.0.0.1:8080')
     dev_group.add_argument('-c', '--certificate', type=str, help='Path to the proxy CA')
@@ -66,8 +67,9 @@ def parse_params():
     config["certificate"] = get_absolute_path(config.get("certificate", None))
     config["root"] = get_absolute_path(config.get("root", None))
     config["analyze"] = get_absolute_path(config.get("analyze", None))
+    config["inputprompt"] = get_absolute_path(config.get("inputprompt", None))
     # internal parameters, overkill to exposes them to the user
-    config["retries"] = 3
+    config["retries"] = 4
     config["sleep_between_retries"] = 10
     config["iterations_in_secondary_analysis"] = 7
     config["reporting"] = True # allows to disable reporting to better debug non-reporting issues
@@ -176,6 +178,23 @@ def run(args,config):
             logger.error("Language not supported")
             sys.exit(1)
 
+    if config["inputprompt"]:
+        global INITIAL_ANALYSIS_PROMPT_TEMPLATE
+        INITIAL_ANALYSIS_PROMPT_TEMPLATE = INITIAL_ANALYSIS_PROMPT_TEMPLATE_ALTERNATE
+
+        global SYS_PROMPT_TEMPLATE
+        SYS_PROMPT_TEMPLATE = SYS_PROMPT_TEMPLATE_ALTERNATE
+        custom_prompt_file = Path(config["inputprompt"])
+        with custom_prompt_file.open("r", encoding="utf-8") as f:
+            custom_prompt = f.read()
+        global VULN_SPECIFIC_BYPASSES_AND_PROMPTS
+        VULN_SPECIFIC_BYPASSES_AND_PROMPTS = {
+            "CUSTOM": {
+                "prompt": custom_prompt,
+                "bypasses": []
+            }
+        }
+
     files = repo.get_relevant_target_files()
     if config["analyze"]:
         files_to_analyze = repo.get_files_to_analyze(Path(config["analyze"]))
@@ -199,6 +218,9 @@ def run(args,config):
 
             user_prompt = initial_analysis(content, target_f, config)
             initial_analysis_report: Response = llm.chat(user_prompt, response_model=Response, step=PromptStep.INITIAL_ANALYSIS, config=config, file_iteration_counter=target_file_counter)
+
+            if config["inputprompt"]: # override to process only the vulnerability specified in the user supplied prompt
+                initial_analysis_report.vulnerability_types = ["CUSTOM"]
 
             log.info("Initial analysis complete", report=initial_analysis_report.model_dump())
             print_readable(initial_analysis_report, config)
