@@ -1,0 +1,169 @@
+Analyze the code for go routine leaks. Below are examples of possible go routine leaks
+
+Blocked send on an unbuffered channel
+When a goroutine tries to send on an unbuffered channel and no receiver is ready, it parks forever.
+```
+package main
+
+import (
+	"fmt"
+	"time"
+    	"runtime"
+)
+
+func main() {
+	ch := make(chan int) // capacity 0
+	for i := 0; i < 3; i++ {
+		go func(v int) {
+			ch <- v // ← blocks; three goroutines leak
+		}(i)
+	}
+	time.Sleep(2 * time.Second)          // program exits; leaks stay
+	fmt.Println("live:", runtime.NumGoroutine())
+}
+```
+
+Blocked receive waiting for data that never arrives
+```
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	done := make(chan struct{})
+	go func() {
+		<-done // waits forever
+		fmt.Println("never printed")
+	}()
+
+	time.Sleep(2 * time.Second)
+	fmt.Println("live:", runtime.NumGoroutine()) // 2 goroutines (main + leaked)
+}
+```
+
+Forgotten sender in a fan out pipeline
+```
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	results := make(chan int) // unbuffered
+	for i := 0; i < 2; i++ {
+		go func(v int) {
+			time.Sleep(3 * time.Second) // simulate work
+			results <- v                // will block
+		}(i)
+	}
+
+	// Early return: we decide we only need one result.
+	fmt.Println(<-results) // take first value
+	fmt.Println("exit without draining")
+}
+```
+
+Context created but never cancelled
+```
+package main
+
+import (
+	"context"
+	"fmt"
+    	"runtime"
+	"time"
+)
+
+func main() {
+	ctx, _ := context.WithCancel(context.Background()) // cancel forgotten
+	go func() {
+		<-ctx.Done() // goroutine waits forever
+	}()
+
+	time.Sleep(2 * time.Second)
+	fmt.Println("live:", runtime.NumGoroutine()) // includes leaked ctx goroutine
+}
+```
+
+Looping with time.After
+```
+package main
+
+import "time"
+
+func main() {
+	for {
+		<-time.After(time.Minute) // allocates a new timer goroutine every pass
+	}
+}
+```
+time.After is sugar for time.NewTimer(d).C; every call spawns a timer goroutine that lives until it fires, so long‑running loops accumulate them
+
+
+Creating a time.Ticker and never stopping it
+```
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	t := time.NewTicker(500 * time.Millisecond)
+	go func() {
+		for range t.C { // consumer ends early
+			fmt.Println("tick once")
+			break
+		}
+	}()
+
+	time.Sleep(2 * time.Second) // ticker goroutine still ticking
+	// t.Stop() // FIX: always stop when done
+}
+```
+
+
+Missing wg.Done() in a WaitGroup pattern
+```
+package main
+
+import (
+	"sync"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go func() {
+			/* work */           // forget wg.Done()
+		}()
+	}
+	wg.Wait() // waits forever; goroutines hang
+}
+```
+The goroutines finish, but the program never knows, so everything is effectively stuck.
+
+
+Infinite work loop with no exit path
+```
+package main
+
+import "time"
+
+func main() {
+	go func() {
+		for { // endless
+			time.Sleep(10 * time.Millisecond)
+		}
+	}()
+
+	time.Sleep(2 * time.Second) // leaked goroutine keeps the process busy
+}
+```
