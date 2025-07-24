@@ -14,6 +14,7 @@ The `x` stands for *extended*, with the following major contributions:
   - C# - see [README](./codeExtractor/c%23/README.md)
   - Java - see [README](./codeExtractor/java/README.md)
   - Go - see [README](./codeExtractor/go/README.md)
+- Custom prompts: hunt for specific bug classes
 - test suite which allows local development with:
   - reproducibility
   - no API latency
