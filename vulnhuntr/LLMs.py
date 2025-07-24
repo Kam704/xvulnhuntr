@@ -114,7 +114,7 @@ class Claude(LLM):
         return messages
 
     def send_message(self, messages: List[Dict[str, str]], max_tokens: int, response_model: BaseModel, step: str, vulnerability_type: VulnType, iteration: int,config: Dict, file_iteration_counter: int = -1) -> Dict[str, Any]:
-        for attempt in range(config["retries"]):
+        for attempt in range(1,(config["retries"]+1)): # start from 1 to multiply the attempt times the delay
             try:
                 if self.mock:
                     if step == PromptStep.SUMMARY:
@@ -157,12 +157,14 @@ class Claude(LLM):
                 delay = attempt*config["sleep_between_retries"]
                 logger.info(f"Got an exception, wait for {delay} seconds before next API call")
                 time.sleep(delay)
-                raise RateLimitError("Request was rate-limited") from e
+                if attempt == config["retries"]:
+                    raise RateLimitError("Request was rate-limited") from e
             except anthropic.APIStatusError as e:
                 delay = attempt*config["sleep_between_retries"]
                 logger.info(f"Got an exception, wait for {delay} seconds before next API call")
                 time.sleep(delay)
-                raise APIStatusError(e.status_code, e.response) from e
+                if attempt == config["retries"]:
+                    raise APIStatusError(e.status_code, e.response) from e
 
     def get_response(self, response: Dict[str, Any]) -> str:
         return response.content[0].text.replace('\n', '')
