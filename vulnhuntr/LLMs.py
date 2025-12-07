@@ -48,6 +48,19 @@ class LLM:
         self.prefill = None
 
     def _validate_response(self, response_text: str, response_model: BaseModel) -> BaseModel:
+        # --- PATCH START (Clean Structure) ---
+        import re
+        # 1. Remove <think> blocks
+        response_text = re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL)
+        
+        # 2. Remove Markdown wrappers
+        if "```
+            response_text = response_text.split("```json").split("```
+        elif "```" in response_text:
+             response_text = response_text.split("``````")[0].strip()
+        
+        response_text = response_text.strip()
+        # --- PATCH END -----------------------
         try:
             if self.prefill:
                 response_text = self.prefill + response_text
