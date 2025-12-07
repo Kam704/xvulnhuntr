@@ -54,10 +54,12 @@ class LLM:
         response_text = re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL)
         
         # 2. Remove Markdown wrappers
-        if "```
-            response_text = response_text.split("```json").split("```
+        if "```json" in response_text:
+            response_text = response_text.split("```json", 1)[1]
+            response_text = response_text.split("```", 1)[0]
         elif "```" in response_text:
-             response_text = response_text.split("``````")[0].strip()
+            response_text = response_text.split("```", 1)[1]
+            response_text = response_text.split("```", 1)[0]
         
         response_text = response_text.strip()
         # --- PATCH END -----------------------
