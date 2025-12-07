@@ -102,7 +102,17 @@ class BaseRepoOps:
                 result = subprocess.run(cmdline,capture_output=True, text=True, check=True)
             if config["verbosity"] > 1:
                 logger.debug(result.stdout)
-            extractedCodeObj = json.loads(result.stdout)
+            # --- PATCH: Handle noisy binary output ---
+            raw_output = result.stdout
+            start = raw_output.find('{')
+            end = raw_output.rfind('}')
+            if start != -1 and end != -1:
+                try:
+                    extractedCodeObj = json.loads(raw_output[start:end+1])
+                except json.JSONDecodeError:
+                    extractedCodeObj = {}
+            else:
+                extractedCodeObj = {}
             extractedCode = extractedCodeObj.get("source")
             extractedFilePath = extractedCodeObj.get("filepath")
         except subprocess.CalledProcessError as e:

@@ -199,7 +199,7 @@ class SymbolExtractor:
                         match = self._create_match_obj(inf, symbol_name)
                         return match
 
-        logger.info('No matches found for symbol:', symbol_name)
+        logger.info('No matches found for symbol: %s', symbol_name)
         return
     
     def _is_exact_match(self, name: Name, parts: List[str]) -> bool:
