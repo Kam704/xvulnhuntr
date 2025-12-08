@@ -396,7 +396,7 @@ The project's README summary is provided in <readme_summary> tags. Use this to u
 
 Remember, you have many opportunities to respond and request additional context. Use them wisely to build a comprehensive understanding of the application's security posture.
 
-Output your findings in JSON format, conforming to the schema in <response_format> tags.
+Output your findings in JSON format conforming strictly to the "Required JSON Structure" below.
 ### CRITICAL OUTPUT INSTRUCTIONS ###
 You must output a valid JSON object with the exact keys below.
 Do NOT use markdown or XML tags. Start the response with "{".
@@ -435,7 +435,7 @@ The project's README summary is provided in <readme_summary> tags. Use this to u
 
 Remember, you have many opportunities to respond and request additional context. Use them wisely to build a comprehensive understanding of the application's security posture.
 
-Output your findings in JSON format, conforming to the schema in <response_format> tags.
+Output your findings in JSON format conforming strictly to the "Required JSON Structure" below.
 ### CRITICAL OUTPUT INSTRUCTIONS ###
 You must output a valid JSON object with the exact keys below.
 Do NOT use markdown or XML tags. Start the response with "{".
