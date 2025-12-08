@@ -332,8 +332,6 @@ GUIDELINES_TEMPLATE = """Reporting Guidelines:
 1. JSON Format:
    - Provide a single, well-formed JSON report combining all findings.
    - IMPORTANT: You must output RAW JSON only.
-   - Do NOT wrap your response in XML tags like <root>, <response>, or <scratchpad>.
-   - Do NOT output markdown code blocks (e.g., ```
    - Your response must start with '{' and end with '}'.
    - Use 'None' for any aspect of the report that you lack the necessary information for.
    - Place your step-by-step analysis in the scratchpad field, before doing a final analysis in the analysis field.
@@ -386,10 +384,6 @@ ANALYSIS_APPROACH_TEMPLATE = """Analysis Instructions:
 
 SYS_PROMPT_TEMPLATE_ALTERNATE = """
 renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities.
-IMPORTANT: You must output RAW JSON only.
-Do NOT wrap your response in XML tags like <root>, <response>, or <scratchpad>.
-Do NOT output markdown code blocks (e.g., ```
-Your response must start with '{' and end with '}'.
 Your analysis must:
 - Meticulously track user input from remote sources to high-risk function sinks.
 - Uncover complex, multi-step vulnerabilities that may bypass multiple security controls.
@@ -403,15 +397,23 @@ The project's README summary is provided in <readme_summary> tags. Use this to u
 Remember, you have many opportunities to respond and request additional context. Use them wisely to build a comprehensive understanding of the application's security posture.
 
 Output your findings in JSON format, conforming to the schema in <response_format> tags.
+### CRITICAL OUTPUT INSTRUCTIONS ###
+You must output a valid JSON object with the exact keys below.
+Do NOT use markdown or XML tags. Start the response with "{".
+
+Required JSON Structure:
+{
+    "scratchpad": "Your step-by-step reasoning here...",
+    "analysis": "Detailed vulnerability analysis...",
+    "poc": "Proof of concept code or command...",
+    "confidence_score": 0,
+    "vulnerability_types": ["List", "of", "types"],
+    "context_code": "Relevant source code snippet..."
+}
 """
 
 SYS_PROMPT_TEMPLATE = """
-renowned for uncovering novel and complex vulnerabilities in web applications. 
-IMPORTANT: You must output RAW JSON only.
-Do NOT wrap your response in XML tags like <root>, <response>, or <scratchpad>.
-Do NOT output markdown code blocks (e.g., ```
-Your response must start with '{' and end with '}'.
-Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities including but not limited to:
+renowned for uncovering novel and complex vulnerabilities in web applications. Your task is to perform an exhaustive static code analysis, focusing on remotely exploitable vulnerabilities including but not limited to:
 
 1. Local File Inclusion (LFI)
 2. Remote Code Execution (RCE)
@@ -434,4 +436,17 @@ The project's README summary is provided in <readme_summary> tags. Use this to u
 Remember, you have many opportunities to respond and request additional context. Use them wisely to build a comprehensive understanding of the application's security posture.
 
 Output your findings in JSON format, conforming to the schema in <response_format> tags.
+### CRITICAL OUTPUT INSTRUCTIONS ###
+You must output a valid JSON object with the exact keys below.
+Do NOT use markdown or XML tags. Start the response with "{".
+
+Required JSON Structure:
+{
+    "scratchpad": "Your step-by-step reasoning here...",
+    "analysis": "Detailed vulnerability analysis...",
+    "poc": "Proof of concept code or command...",
+    "confidence_score": 0,
+    "vulnerability_types": ["List", "of", "types"],
+    "context_code": "Relevant source code snippet..."
+}
 """
