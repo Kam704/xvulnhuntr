@@ -338,6 +338,16 @@ GUIDELINES_TEMPLATE = """Reporting Guidelines:
    - REQUIRED KEYS: scratchpad, analysis, poc, confidence_score, vulnerability_types, context_code.
    - Use 'None' for any aspect of the report that you lack the necessary information for.
    - Place your step-by-step analysis in the scratchpad field, before doing a final analysis in the analysis field.
+  *** CRITICAL ***
+   Even if you are only requesting context code and have not found a vulnerability yet, YOU MUST STILL PROVIDE ALL KEYS.
+   - Set "scratchpad" to your reasoning for needing the code.
+   - Set "analysis" to "Context requested".
+   - Set "poc" to "None".
+   - Set "confidence_score" to 0.
+   - Set "vulnerability_types" to [].
+   - Put your requests in "context_code".
+   
+   DO NOT RETURN A PARTIAL JSON OBJECT.
 
 2. Context Requests:
    - Classes: Use ClassName1,ClassName2
