@@ -405,8 +405,10 @@ Remember, you have many opportunities to respond and request additional context.
 
 Output your findings in JSON format conforming strictly to the "Required JSON Structure" below.
 ### CRITICAL OUTPUT INSTRUCTIONS ###
-You must output a valid JSON object with the exact keys below.
-Do NOT use markdown or XML tags. Start the response with "{".
+1. Output a SINGLE, flat JSON object.
+2. Do NOT wrap your response in a "final" key or a list.
+3. Do NOT use markdown or XML tags.
+4. Your response must start immediately with the opening brace '{' corresponding to the schema below.
 
 Required JSON Structure:
 {
@@ -444,8 +446,10 @@ Remember, you have many opportunities to respond and request additional context.
 
 Output your findings in JSON format conforming strictly to the "Required JSON Structure" below.
 ### CRITICAL OUTPUT INSTRUCTIONS ###
-You must output a valid JSON object with the exact keys below.
-Do NOT use markdown or XML tags. Start the response with "{".
+1. Output a SINGLE, flat JSON object.
+2. Do NOT wrap your response in a "final" key or a list.
+3. Do NOT use markdown or XML tags.
+4. Your response must start immediately with the opening brace '{' corresponding to the schema below.
 
 Required JSON Structure:
 {
