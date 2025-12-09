@@ -304,7 +304,8 @@ Analyze the code in <file_code> tags for potential remotely exploitable vulnerab
 4. Highlight areas where more context is needed to complete the analysis.
 
 Be generous and thorough in identifying potential vulnerabilities as you'll analyze more code in subsequent steps so if there's just a possibility of a vulnerability, include it the <vulnerability_types> tags.
-If there is none, then use an empty array. Response in json.
+If there is none, then use an empty array.
+IMPORTANT: Response must be a raw JSON object with keys: scratchpad, analysis, poc, confidence_score, vulnerability_types, context_code.
 """
 
 # used with user supplied custom prompt
@@ -314,7 +315,8 @@ Analyze the code in <file_code> tags for potential remotely exploitable vulnerab
 2. Highlight areas where more context is needed to complete the analysis.
 
 Be generous and thorough in identifying potential vulnerabilities as you'll analyze more code in subsequent steps so if there's just a possibility of a vulnerability, include it the <vulnerability_types> tags.
-If there is none, then use an empty array. Response in json.
+If there is none, then use an empty array.
+IMPORTANT: Response must be a raw JSON object with keys: scratchpad, analysis, poc, confidence_score, vulnerability_types, context_code.
 """
 
 README_SUMMARY_PROMPT_TEMPLATE = """
@@ -331,8 +333,9 @@ Output in <summary></summary> XML tags. Response in json.
 GUIDELINES_TEMPLATE = """Reporting Guidelines:
 1. JSON Format:
    - Provide a single, well-formed JSON report combining all findings.
-   - IMPORTANT: You must output RAW JSON only.
+   - IMPORTANT: You must output RAW JSON only. Do NOT use markdown.
    - Your response must start with '{' and end with '}'.
+   - REQUIRED KEYS: scratchpad, analysis, poc, confidence_score, vulnerability_types, context_code.
    - Use 'None' for any aspect of the report that you lack the necessary information for.
    - Place your step-by-step analysis in the scratchpad field, before doing a final analysis in the analysis field.
 
@@ -408,7 +411,7 @@ Required JSON Structure:
     "poc": "Proof of concept code or command...",
     "confidence_score": 0,
     "vulnerability_types": ["List", "of", "types"],
-    "context_code": "Relevant source code snippet..."
+    "context_code": ["List", "of", "requested", "classes", "or", "functions"] 
 }
 """
 
@@ -447,6 +450,6 @@ Required JSON Structure:
     "poc": "Proof of concept code or command...",
     "confidence_score": 0,
     "vulnerability_types": ["List", "of", "types"],
-    "context_code": "Relevant source code snippet..."
+    "context_code": ["List", "of", "requested", "classes", "or", "functions"] 
 }
 """
