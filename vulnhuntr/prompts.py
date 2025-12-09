@@ -336,18 +336,13 @@ GUIDELINES_TEMPLATE = """Reporting Guidelines:
    - IMPORTANT: You must output RAW JSON only. Do NOT use markdown.
    - Your response must start with '{' and end with '}'.
    - REQUIRED KEYS: scratchpad, analysis, poc, confidence_score, vulnerability_types, context_code.
-   - Use 'None' for any aspect of the report that you lack the necessary information for.
-   - Place your step-by-step analysis in the scratchpad field, before doing a final analysis in the analysis field.
-  *** CRITICAL ***
-   Even if you are only requesting context code and have not found a vulnerability yet, YOU MUST STILL PROVIDE ALL KEYS.
-   - Set "scratchpad" to your reasoning for needing the code.
-   - Set "analysis" to "Context requested".
-   - Set "poc" to "None".
-   - Set "confidence_score" to 0.
-   - Set "vulnerability_types" to [].
-   - Put your requests in "context_code".
+   - Place your step-by-step analysis in the 'scratchpad' field.
    
-   DO NOT RETURN A PARTIAL JSON OBJECT.
+   *** CRITICAL ***
+   You MUST always provide a COMPLETE JSON object with ALL keys, even if requesting context.
+   - If requesting context, do NOT set 'analysis' to "Context requested". instead, use the 'analysis' field to explain the potential vulnerability path you are investigating and why the context is needed.
+   - If no vulnerability is confirmed yet, you can set 'poc' to "Pending context" and 'confidence_score' to a low value (e.g., 0-3), but ALL keys must be present.
+   - 'context_code' must be a list of strings (e.g., ["ClassName", "func_name"]). If no context is needed, use an empty list [].
 
 2. Context Requests:
    - Classes: Use ClassName1,ClassName2
@@ -357,14 +352,13 @@ GUIDELINES_TEMPLATE = """Reporting Guidelines:
 
 3. Vulnerability Reporting:
    - Report only remotely exploitable vulnerabilities (no local access/CLI args).
-   - Always include at least one vulnerability_type field when requesting context.
    - Provide a confidence score (0-10) and detailed justification for each vulnerability.
      - If your proof of concept (PoC) exploit does not start with remote user input via remote networking calls such as remote HTTP, API, or RPC calls, set the confidence score to 6 or below.
    
 4. Proof of Concept:
    - Include a PoC exploit or detailed exploitation steps for each vulnerability.
    - Ensure PoCs are specific to the analyzed code, not generic examples.
-   - Review the code path ofthe potential vulnerability and be sure that the PoC bypasses any security controls in the code path.
+   - Review the code path of the potential vulnerability and be sure that the PoC bypasses any security controls in the code path.
 """
 
 ANALYSIS_APPROACH_TEMPLATE = """Analysis Instructions:
